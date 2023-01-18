@@ -31,7 +31,4 @@ public class CartProduct {
 	@ManyToOne // Bidirectional
 	private Cart cart;
 	
-	@ManyToOne // Bidirectional
-	private Category category;
-	
 }
