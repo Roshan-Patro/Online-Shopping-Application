@@ -2,7 +2,6 @@ package com.OnlineShoppingApp.DTO;
 
 import lombok.*;
 
-@Data
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
