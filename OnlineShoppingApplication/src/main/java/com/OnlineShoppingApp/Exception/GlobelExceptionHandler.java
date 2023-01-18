@@ -53,6 +53,7 @@ public class GlobelExceptionHandler {
 		return new ResponseEntity<ErrorDetails>(err,HttpStatus.BAD_REQUEST);
 	}
 	@ExceptionHandler(CartProductException.class)
+
 	public ResponseEntity<ErrorDetails> myHandler8(CartProductException e,WebRequest w){
 		ErrorDetails err=new ErrorDetails(LocalDateTime.now(),e.getMessage(),w.getDescription(false));
 		return new ResponseEntity<ErrorDetails>(err,HttpStatus.BAD_REQUEST);
