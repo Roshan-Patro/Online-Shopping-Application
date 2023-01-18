@@ -41,6 +41,7 @@ public class GlobelExceptionHandler {
 		ErrorDetails err=new ErrorDetails(LocalDateTime.now(),e.getMessage(),w.getDescription(false));
 		return new ResponseEntity<ErrorDetails>(err,HttpStatus.BAD_REQUEST);
 	}
+
 	@ExceptionHandler(OrderException.class)
 	public ResponseEntity<ErrorDetails> myHandler6(OrderException e,WebRequest w){
 		ErrorDetails err=new ErrorDetails(LocalDateTime.now(),e.getMessage(),w.getDescription(false));
@@ -52,7 +53,20 @@ public class GlobelExceptionHandler {
 		return new ResponseEntity<ErrorDetails>(err,HttpStatus.BAD_REQUEST);
 	}
 	@ExceptionHandler(CartProductException.class)
-	public ResponseEntity<ErrorDetails> myHandler7(CartProductException e,WebRequest w){
+
+	public ResponseEntity<ErrorDetails> myHandler8(CartProductException e,WebRequest w){
+		ErrorDetails err=new ErrorDetails(LocalDateTime.now(),e.getMessage(),w.getDescription(false));
+		return new ResponseEntity<ErrorDetails>(err,HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(AdminException.class)
+	public ResponseEntity<ErrorDetails> myHandler9(AdminException e,WebRequest w){
+		ErrorDetails err=new ErrorDetails(LocalDateTime.now(),e.getMessage(),w.getDescription(false));
+		return new ResponseEntity<ErrorDetails>(err,HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(LoginException.class)
+	public ResponseEntity<ErrorDetails> myHandler10(LoginException e,WebRequest w){
 		ErrorDetails err=new ErrorDetails(LocalDateTime.now(),e.getMessage(),w.getDescription(false));
 		return new ResponseEntity<ErrorDetails>(err,HttpStatus.BAD_REQUEST);
 	}
