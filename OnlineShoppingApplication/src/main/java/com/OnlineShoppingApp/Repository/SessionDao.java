@@ -1,4 +1,4 @@
-package com.OnlineShoppingApp.DAO;
+package com.OnlineShoppingApp.Repository;
 
 import com.OnlineShoppingApp.Entity.CurrentSession;
 import org.springframework.data.jpa.repository.JpaRepository;

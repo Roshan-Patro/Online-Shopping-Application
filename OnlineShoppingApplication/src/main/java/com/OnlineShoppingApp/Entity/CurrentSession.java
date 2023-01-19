@@ -10,14 +10,12 @@ import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
 @Entity
 public class CurrentSession {
 
     @Id
-    private Integer Id;
+    private Integer id;
     private String type;
     private String uuid;
     private LocalDateTime localDateTime;

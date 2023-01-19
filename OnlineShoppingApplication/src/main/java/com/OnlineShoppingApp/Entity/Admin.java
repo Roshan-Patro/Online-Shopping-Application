@@ -10,9 +10,7 @@ import javax.persistence.Id;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@Getter
-@Setter
+@Data
 @Entity
 public class Admin {
 
