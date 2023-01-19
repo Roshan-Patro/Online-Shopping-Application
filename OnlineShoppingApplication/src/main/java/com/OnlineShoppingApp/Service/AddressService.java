@@ -22,17 +22,20 @@ public interface AddressService {
 	// 5. View address by address Id
 	public Address viewAddressByAddressId(Integer addressId) throws AddressException;
 	
-	// View addresses by building name
+	// 6. View addresses by building name
+	public List<Address> viewAddressesByBuildingName(String buildingName) throws AddressException;
 	
-	// View addresses by country name
+	// 7. View addresses of orders by pincode
+	public List<Address> addressesOfOrdersByPin(String pincode) throws AddressException;
 	
-	// Find addresses of orders by pincode
+	// 8. View addresses of customers by pincode
+	public List<Address> addressesOfCustomersByPin(String pincode) throws AddressException;
 	
-	// Find addresses of customers by pincode
+	// 9. View addresses of orders by Country and State
+	public List<Address> addressesOfOrdersByCountryState(String country, String state) throws AddressException;
 	
-	// Find addresses of orders by Country and state
-	
-	// Find addresses of customers by Country and state
+	// 10. View addresses of customers by Country and State
+	public List<Address> addressesOfCustomersByCountryState(String country, String state) throws AddressException;
 	
 	// View top n locations of a country according to number of orders placed
 	
