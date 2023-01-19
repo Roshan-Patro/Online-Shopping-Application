@@ -24,67 +24,105 @@ public class AddressController {
 
 	@Autowired
 	private AddressService aService;
-	
-	
+
 	// 1. Adding Address
 	@PostMapping
-	public ResponseEntity<Address> addAnAddress(@RequestBody Address address){
+	public ResponseEntity<Address> addAnAddress(@RequestBody Address address) {
 		return new ResponseEntity<>(aService.addAnAddress(address), HttpStatus.CREATED);
 	}
-	
+
 	// 2. Updating Address
 	@PutMapping
-	public ResponseEntity<Address> updateAddress(@RequestBody Address address){
+	public ResponseEntity<Address> updateAddress(@RequestBody Address address) {
 		return new ResponseEntity<>(aService.updateAddress(address), HttpStatus.OK);
 	}
-	
+
 	// 3. Removing Address by address
 	@DeleteMapping
-	public ResponseEntity<Address> removeAddress(@RequestBody Address address){
+	public ResponseEntity<Address> removeAddress(@RequestBody Address address) {
 		return new ResponseEntity<>(aService.removeAddress(address), HttpStatus.OK);
 	}
-	
+
 	// 4. Viewing all addresses
 	@GetMapping
-	public ResponseEntity<List<Address>> viewAllAddresses(){
+	public ResponseEntity<List<Address>> viewAllAddresses() {
 		return new ResponseEntity<>(aService.viewAllAddresses(), HttpStatus.ACCEPTED);
 	}
-	
+
 	// 5. Viewing address by address Id
 	@GetMapping("/{addressId}")
-	public ResponseEntity<Address> viewAddressByAddressId(@PathVariable("addressId") Integer addressId){
+	public ResponseEntity<Address> viewAddressByAddressId(@PathVariable("addressId") Integer addressId) {
 		return new ResponseEntity<>(aService.viewAddressByAddressId(addressId), HttpStatus.ACCEPTED);
 	}
-	
+
+	// 6. Viewing addresses by building name
+	@GetMapping("/viewByBuildingName/{bName}")
+	public ResponseEntity<List<Address>> viewAddressesByBuildingName(@PathVariable("bName") String bName) {
+		return new ResponseEntity<>(aService.viewAddressesByBuildingName(bName), HttpStatus.ACCEPTED);
+	}
+
+	// 7. Viewing addresses of orders by pincode
+	@GetMapping("/orderAddressesByPin/{pin}")
+	public ResponseEntity<List<Address>> addressesOfOrdersByPin(@PathVariable("pin") String pin) {
+		return new ResponseEntity<>(aService.addressesOfOrdersByPin(pin), HttpStatus.ACCEPTED);
+	}
+
+	// 8. Viewing addresses of customers by pincode
+	@GetMapping("/customerAddressesByPin/{pin}")
+	public ResponseEntity<List<Address>> addressesOfCustomersByPin(@PathVariable("pin") String pin) {
+		return new ResponseEntity<>(aService.addressesOfCustomersByPin(pin), HttpStatus.ACCEPTED);
+	}
+
+	// 9. Viewing addresses of orders by country and state
+	@GetMapping("/orderAddressesByCountrySt/{cnt}/{st}")
+	public ResponseEntity<List<Address>> addressesOfOrdersByCountryState(@PathVariable("cnt") String cnt,
+			@PathVariable("st") String st) {
+		return new ResponseEntity<>(aService.addressesOfOrdersByCountryState(cnt, st), HttpStatus.ACCEPTED);
+	}
+
+	// 10. Viewing addresses of customers by country and state
+	@GetMapping("/customerAddressesByCountrySt/{cnt}/{st}")
+	public ResponseEntity<List<Address>> addressesOfCustomersByCountryState(@PathVariable("cnt") String cnt,
+			@PathVariable("st") String st) {
+		return new ResponseEntity<>(aService.addressesOfCustomersByCountryState(cnt, st), HttpStatus.ACCEPTED);
+	}
+
 	// 6. Viewing addresses with sorting by a property in ascending order
 	@GetMapping("/sortAsc")
-	public ResponseEntity<List<Address>> viewAddressesWithSortingAsc(@RequestParam("sortBy") String sortBy){
+	public ResponseEntity<List<Address>> viewAddressesWithSortingAsc(@RequestParam("sortBy") String sortBy) {
 		return new ResponseEntity<>(aService.viewAddressesWithSortingAsc(sortBy), HttpStatus.ACCEPTED);
 	}
-	
+
 	// 7. Viewing addresses with sorting by a property in descending order
 	@GetMapping("/sortDsc")
-	public ResponseEntity<List<Address>> viewAddressesWithSortingDsc(@RequestParam("sortBy") String sortBy){
+	public ResponseEntity<List<Address>> viewAddressesWithSortingDsc(@RequestParam("sortBy") String sortBy) {
 		return new ResponseEntity<>(aService.viewAddressesWithSortingDsc(sortBy), HttpStatus.ACCEPTED);
 	}
-	
-	// 8. Viewing addresses with pagination and sorting by a property in ascending order
+
+	// 8. Viewing addresses with pagination and sorting by a property in ascending
+	// order
 	@GetMapping("/paginateSortAsc")
-	public ResponseEntity<List<Address>> viewAddressesWithPaginationAndSortingAsc(@RequestParam("pageNo") Integer pageNo, @RequestParam("pageSize") Integer pageSize, @RequestParam("sortBy") String sortBy){
-		return new ResponseEntity<>(aService.viewAddressesWithPaginationAndSortingAsc(pageNo, pageSize, sortBy), HttpStatus.ACCEPTED);
+	public ResponseEntity<List<Address>> viewAddressesWithPaginationAndSortingAsc(
+			@RequestParam("pageNo") Integer pageNo, @RequestParam("pageSize") Integer pageSize,
+			@RequestParam("sortBy") String sortBy) {
+		return new ResponseEntity<>(aService.viewAddressesWithPaginationAndSortingAsc(pageNo, pageSize, sortBy),
+				HttpStatus.ACCEPTED);
 	}
-	
-	// 9. Viewing addresses with pagination and sorting by a property in descending order
+
+	// 9. Viewing addresses with pagination and sorting by a property in descending
+	// order
 	@GetMapping("/paginateSortDsc")
-	public ResponseEntity<List<Address>> viewAddressesWithPaginationAndSortingDsc(@RequestParam("pageNo") Integer pageNo, @RequestParam("pageSize") Integer pageSize, @RequestParam("sortBy") String sortBy){
-		return new ResponseEntity<>(aService.viewAddressesWithPaginationAndSortingDsc(pageNo, pageSize, sortBy), HttpStatus.ACCEPTED);
+	public ResponseEntity<List<Address>> viewAddressesWithPaginationAndSortingDsc(
+			@RequestParam("pageNo") Integer pageNo, @RequestParam("pageSize") Integer pageSize,
+			@RequestParam("sortBy") String sortBy) {
+		return new ResponseEntity<>(aService.viewAddressesWithPaginationAndSortingDsc(pageNo, pageSize, sortBy),
+				HttpStatus.ACCEPTED);
 	}
-	
+
 	// 10. Finding addresses by pincode
 	@GetMapping("/getByPin/{pincode}")
-	public ResponseEntity<List<Address>> findAddressesByPincode(@PathVariable("pincode") String pincode){
+	public ResponseEntity<List<Address>> findAddressesByPincode(@PathVariable("pincode") String pincode) {
 		return new ResponseEntity<>(aService.findAddressesByPincode(pincode), HttpStatus.ACCEPTED);
 	}
-	
-	
+
 }
