@@ -22,6 +22,22 @@ public interface AddressService {
 	// 5. View address by address Id
 	public Address viewAddressByAddressId(Integer addressId) throws AddressException;
 	
+	// View addresses by building name
+	
+	// View addresses by country name
+	
+	// Find addresses of orders by pincode
+	
+	// Find addresses of customers by pincode
+	
+	// Find addresses of orders by Country and state
+	
+	// Find addresses of customers by Country and state
+	
+	// View top n locations of a country according to number of orders placed
+	
+	// View last n locations of a country according to number of oreders placed
+	
 	// 6. View addresses with sorting by a property in ascending order
 	public List<Address> viewAddressesWithSortingAsc(String sortBy) throws AddressException;
 	
