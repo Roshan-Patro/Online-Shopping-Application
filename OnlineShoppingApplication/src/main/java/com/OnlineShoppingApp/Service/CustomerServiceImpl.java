@@ -1,6 +1,6 @@
 package com.OnlineShoppingApp.Service;
 
-import com.OnlineShoppingApp.DAO.CustomerDao;
+import com.OnlineShoppingApp.Repository.*;
 import com.OnlineShoppingApp.Entity.Customer;
 import com.OnlineShoppingApp.Exception.CustomerException;
 import org.springframework.beans.factory.annotation.Autowired;

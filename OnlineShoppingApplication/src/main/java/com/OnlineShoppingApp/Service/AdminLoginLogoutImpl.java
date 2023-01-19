@@ -1,7 +1,6 @@
 package com.OnlineShoppingApp.Service;
 
-import com.OnlineShoppingApp.DAO.AdminDao;
-import com.OnlineShoppingApp.DAO.SessionDao;
+import com.OnlineShoppingApp.Repository.*;
 import com.OnlineShoppingApp.DTO.AdminDTO;
 import com.OnlineShoppingApp.Entity.CurrentSession;
 import com.OnlineShoppingApp.Entity.Admin;

@@ -1,7 +1,6 @@
 package com.OnlineShoppingApp.Service;
 
-import com.OnlineShoppingApp.DAO.CustomerDao;
-import com.OnlineShoppingApp.DAO.SessionDao;
+import com.OnlineShoppingApp.Repository.*;
 import com.OnlineShoppingApp.Entity.CurrentSession;
 import com.OnlineShoppingApp.DTO.UserDTO;
 import com.OnlineShoppingApp.Entity.Customer;

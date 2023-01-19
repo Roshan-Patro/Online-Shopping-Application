@@ -1,6 +1,6 @@
 package com.OnlineShoppingApp.Service;
 
-import com.OnlineShoppingApp.DAO.AdminDao;
+import com.OnlineShoppingApp.Repository.*;
 import com.OnlineShoppingApp.Entity.Admin;
 import com.OnlineShoppingApp.Exception.AdminException;
 import org.springframework.beans.factory.annotation.Autowired;
