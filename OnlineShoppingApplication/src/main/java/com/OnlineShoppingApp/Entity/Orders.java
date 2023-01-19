@@ -8,37 +8,37 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@NoArgsConstructor
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
 @AllArgsConstructor
-@ToString
-@Getter
-@Setter
+@NoArgsConstructor
 @Entity
 public class Orders {
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer orderId;
+	
 	private LocalDate orderDate;
 	private String orderStatus;
 	
+	@JsonIgnore
 	@ManyToOne // Bidirectional
 	private Customer customer;
 	
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL) // Unidirectional
-	@JoinColumn(name = "ORDERID")
 	private List<CartProduct> cartProductList;
 	
+	@JsonIgnore
 	@ManyToOne // Bidirectional
 	private Address address;
-
 }

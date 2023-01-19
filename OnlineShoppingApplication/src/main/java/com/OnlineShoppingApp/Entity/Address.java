@@ -13,21 +13,19 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-@ToString
-@Getter
-@Setter
+@NoArgsConstructor
 @Entity
 public class Address {
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer addressId;
+	
 	private String streetNo;
 	private String buildingName;
 	private String city;
@@ -35,9 +33,11 @@ public class Address {
 	private String country;
 	private String pincode;
 	
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "address") // Bidirectional
 	private List<Orders> orderList; 
 	
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "addressList") // Always Bidirectional
 	private List<Customer> customerList;
 

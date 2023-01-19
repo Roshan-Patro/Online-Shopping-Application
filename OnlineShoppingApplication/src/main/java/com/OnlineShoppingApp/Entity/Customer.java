@@ -11,34 +11,37 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@NoArgsConstructor
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
 @AllArgsConstructor
-@ToString
-@Getter
-@Setter
+@NoArgsConstructor
 @Entity
 public class Customer {
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer customerId;
+	
 	private String firstName;
 	private String lastName;
 	private String mobileNumber;
 	private String email;
 	private String password;
 	
+	@JsonIgnore
 	@ManyToMany // Always Bidirectional
 	private List<Address> addressList;
 	
+	@JsonIgnore
 	@OneToOne(mappedBy = "customer") //Bidirectional
 	private Cart cart;
 	
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer") // Bidirectional
 	private List<Orders> orderList;
 }

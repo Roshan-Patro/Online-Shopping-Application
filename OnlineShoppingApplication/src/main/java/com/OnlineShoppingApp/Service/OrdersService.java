@@ -1,5 +1,5 @@
 package com.OnlineShoppingApp.Service;
 
-public interface ProductService {
+public interface OrdersService {
 
 }

@@ -1,5 +1,8 @@
 package com.OnlineShoppingApp.Service;
 
-public class CustomerServiceImpl {
+import org.springframework.stereotype.Service;
+
+@Service
+public class CustomerServiceImpl implements CustomerService{
 
 }

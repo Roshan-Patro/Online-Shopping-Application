@@ -10,26 +10,27 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@NoArgsConstructor
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
 @AllArgsConstructor
-@ToString
-@Getter
-@Setter
+@NoArgsConstructor
 @Entity
 public class Cart {
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer cartId;
 	
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cart") // Bidirectional
 	private List<CartProduct> cartProductList;
 	
+	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL) // Bidirectional
 	private Customer customer;
 }
