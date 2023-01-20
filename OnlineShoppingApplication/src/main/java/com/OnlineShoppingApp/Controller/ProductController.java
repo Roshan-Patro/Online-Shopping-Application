@@ -70,4 +70,12 @@ public class ProductController {
 	
 	}
 	
+	@PutMapping("/{pid}/{cname}")
+	public ResponseEntity<Product> updateProductHandler(@PathVariable("pid") Integer productID, @PathVariable("cname") String categoryName){
+		
+		return new ResponseEntity<Product>(pservice.addCategoryToTheProduct(productID, categoryName), HttpStatus.CREATED);
+	
+	}
+	
+	
 }

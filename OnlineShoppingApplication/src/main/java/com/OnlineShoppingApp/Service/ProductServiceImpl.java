@@ -22,6 +22,9 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	private CategoryDao cdao;
 	
+	@Autowired
+	private CategoryService cservice;
+	
 	@Override
 	public List<Product> viewAllProduct() throws ProductException {
 		
@@ -147,7 +150,41 @@ public class ProductServiceImpl implements ProductService{
 			throw new ProductException("Product not found...");
 		}
 		else {
+			
+			Product product = existingProduct.get();
+			
+			prepo.delete(product);
+			
 			return existingProduct.get();
+		}
+		
+	}
+
+	@Override
+	public Product addCategoryToTheProduct(Integer productId, String cname) throws ProductException, CategoryException {
+		
+		Category category = cdao.findByCategoryName(cname);
+		
+		if(category == null) {
+			throw new CategoryException("Category does not exists please add this category...");
+		}
+		else {
+			
+			Optional<Product> product = prepo.findById(productId);
+			
+			if(product.isPresent()) {
+				
+				Product existingProduct = product.get();
+				
+				existingProduct.setCategory(category);
+				
+				return prepo.save(existingProduct);
+				
+			}
+			else {
+				throw new ProductException("Product does not exists...");
+			}
+			
 		}
 		
 	}

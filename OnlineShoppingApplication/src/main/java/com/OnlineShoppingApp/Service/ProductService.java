@@ -20,4 +20,6 @@ public interface ProductService {
 	
 	public Product removeProduct(Integer productID) throws ProductException;
 	
+	public Product addCategoryToTheProduct(Integer productId, String cname) throws ProductException, CategoryException;
+	
 }
