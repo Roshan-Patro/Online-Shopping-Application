@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class AdminUpdateDTO {
-	private Integer adminLoginId;
-    private String adminCompanyId;
-    private String adminName;
+public class UpdatePasswordDTO {
+	private String compIdEmail;
+	private String oldPassword;
+	private String newPassword;
 }

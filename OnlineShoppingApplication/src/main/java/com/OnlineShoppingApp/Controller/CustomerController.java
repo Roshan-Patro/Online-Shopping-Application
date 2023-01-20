@@ -1,5 +1,8 @@
 package com.OnlineShoppingApp.Controller;
 
+import com.OnlineShoppingApp.DTO.CustomerRegisterDTO;
+import com.OnlineShoppingApp.DTO.CustomerUpdateDTO;
+import com.OnlineShoppingApp.DTO.UpdatePasswordDTO;
 import com.OnlineShoppingApp.Entity.Customer;
 import com.OnlineShoppingApp.Exception.CustomerException;
 import com.OnlineShoppingApp.Service.CustomerService;
@@ -17,33 +20,39 @@ public class CustomerController {
     private CustomerService cServ;
 
     @PostMapping("/addCustomer")
-    public ResponseEntity<Customer>addCustomer(@RequestBody Customer customer)throws CustomerException {
-        Customer add= cServ.addCustomer(customer);
+    public ResponseEntity<Customer> addCustomer(@RequestBody CustomerRegisterDTO customerRegisterDTO){
+        Customer add= cServ.addCustomer(customerRegisterDTO);
         return new ResponseEntity<Customer>(add, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/viewByCustomerId/{customer_Id}")
-    public ResponseEntity<Customer>addCustomer(@PathVariable Integer customer_Id)throws CustomerException {
-        Customer view= cServ.viewCustomer(customer_Id);
+    public ResponseEntity<Customer> viewCustomerById(@PathVariable Integer customerId){
+        Customer view= cServ.viewCustomerById(customerId);
         return new ResponseEntity<Customer>(view, HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/updateCustomer/{customer_Id}")
-    public ResponseEntity<Customer>updateCustomer(@RequestBody Customer customer,@PathVariable Integer customer_Id)throws CustomerException{
-        Customer update= cServ.updateCustomer(customer,customer_Id);
+    public ResponseEntity<Customer> updateCustomer(@RequestBody CustomerUpdateDTO customerUpdtDto, @PathVariable String key){
+        Customer update= cServ.updateCustomer(customerUpdtDto, key);
         return new ResponseEntity<Customer>(update, HttpStatus.ACCEPTED);
     }
 
-    @PutMapping("/deleteCustomer/{customer_Id}")
-    public ResponseEntity<Customer>deleteCustomer(@PathVariable Integer customer_Id)throws CustomerException{
-        Customer delete= cServ.deleteCustomer(customer_Id);
+    @DeleteMapping("/deleteCustomer/{customer_Id}")
+    public ResponseEntity<Customer> deleteCustomerById(@PathVariable Integer customerId){
+        Customer delete= cServ.deleteCustomerById(customerId);
         return new ResponseEntity<Customer>(delete, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/viewAllCustomer")
-    public ResponseEntity<List<Customer>>viewAllCustomer()throws CustomerException{
-        List<Customer> viewAll= cServ.viewAllConsumer();
+    public ResponseEntity<List<Customer>> viewAllCustomer(){
+        List<Customer> viewAll = cServ.viewAllConsumer();
         return new ResponseEntity<List<Customer>>(viewAll, HttpStatus.ACCEPTED);
+    }
+    
+    @PutMapping("/updateCustomerPassword")
+    public ResponseEntity<String> updatePassword(@RequestBody UpdatePasswordDTO dto){
+        String updatePass= cServ.updatePassword(dto);
+        return new ResponseEntity<String>(updatePass, HttpStatus.ACCEPTED);
     }
 
 

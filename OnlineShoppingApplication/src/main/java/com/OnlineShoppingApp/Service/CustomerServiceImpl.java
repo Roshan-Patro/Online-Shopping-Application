@@ -1,7 +1,13 @@
 package com.OnlineShoppingApp.Service;
 
 import com.OnlineShoppingApp.Repository.*;
+import com.OnlineShoppingApp.DTO.CustomerRegisterDTO;
+import com.OnlineShoppingApp.DTO.CustomerUpdateDTO;
+import com.OnlineShoppingApp.DTO.UpdatePasswordDTO;
+import com.OnlineShoppingApp.Entity.CurrentSession;
 import com.OnlineShoppingApp.Entity.Customer;
+import com.OnlineShoppingApp.Entity.User;
+import com.OnlineShoppingApp.Enum.Role;
 import com.OnlineShoppingApp.Exception.CustomerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,30 +20,40 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Autowired
     private CustomerDao cDao;
+    
+    @Autowired
+    private UserDao userDao;
+    
+    @Autowired
+    private SessionDao sDao;
 
     @Override
-    public Customer addCustomer(Customer customer) throws CustomerException {
-        Customer existCustomer= cDao.findByEmail(customer.getEmail());
+    public Customer addCustomer(CustomerRegisterDTO customerRegisterDTO) throws CustomerException {
+        Customer existCustomer= cDao.findByEmail(customerRegisterDTO.getEmail());
 
         if(existCustomer!=null){
             throw new CustomerException("Customer Already Exist");
         }
-        customer.setFirstName(customer.getFirstName());
-        customer.setLastName(customer.getLastName());
-        customer.setEmail(customer.getEmail());
-        customer.setPassword(customer.getPassword());
-
+        
+        Customer customer = new Customer();
+        customer.setFirstName(customerRegisterDTO.getFirstName());
+        customer.setLastName(customerRegisterDTO.getLastName());
+        customer.setEmail(customerRegisterDTO.getEmail());
         Customer newCustomer= cDao.save(customer);
+        
+        User user = new User(newCustomer.getCustomerId(),newCustomer.getEmail(),customerRegisterDTO.getPassword(),Role.CUSTOMER);
+        userDao.save(user);
+        
         return newCustomer;
     }
 
     @Override
-    public Customer viewCustomer(Integer Customer_id) throws CustomerException {
-        Optional<Customer>optionalCustomer= cDao.findById(Customer_id);
+    public Customer viewCustomerById(Integer customerId) throws CustomerException {
+        Optional<Customer> optionalCustomer = cDao.findById(customerId);
 
 
-        if(optionalCustomer==null){
-            throw new CustomerException("Customer Not Register Exist");
+        if(optionalCustomer.isPresent()==false){
+            throw new CustomerException("Customer Not Found");
         }else{
             Customer extCustomer=optionalCustomer.get();
             return extCustomer;
@@ -45,33 +61,51 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public Customer updateCustomer(Customer customer, Integer Customer_id) throws CustomerException {
-        Optional<Customer>optionalCustomer= cDao.findById(Customer_id);
+    public Customer updateCustomer(CustomerUpdateDTO customerUpdtDto, String key) throws CustomerException {
+        Optional<Customer> optionalCustomer = cDao.findById(customerUpdtDto.getCustomerId());
 
 
-        if(optionalCustomer==null){
-            throw new CustomerException("Customer Not Register Exist");
-        }else{
-            Customer extCustomer=optionalCustomer.get();
-            extCustomer.setFirstName(customer.getFirstName());
-            extCustomer.setLastName(customer.getLastName());
-            extCustomer.setMobileNumber(customer.getMobileNumber());
-            extCustomer.setEmail(customer.getEmail());
-            extCustomer.setPassword(customer.getPassword());
+        if(optionalCustomer.isPresent()==false){
+            throw new CustomerException("Customer Not Found");
+        }
+        
+        CurrentSession validCurrentSession = sDao.findByUuid(key);
+        
+        if(validCurrentSession!=null && validCurrentSession.getId()==customerUpdtDto.getCustomerId()) {
+        	Customer extCustomer = optionalCustomer.get();
+            extCustomer.setFirstName(customerUpdtDto.getFirstName());
+            extCustomer.setLastName(customerUpdtDto.getLastName());
+            extCustomer.setMobileNumber(customerUpdtDto.getMobileNumber());
+            extCustomer.setEmail(customerUpdtDto.getEmail());
 
             Customer updatedCustomer=cDao.save(extCustomer);
+            
+            Optional<User> optUser = userDao.findById(updatedCustomer.getCustomerId());
+            User existingUser = optUser.get();
+            existingUser.setCompIdEmail(updatedCustomer.getEmail());
+            userDao.save(existingUser);
+            
             return updatedCustomer;
         }
+        
+        throw new CustomerException("Either customer not logged in or giving wrong key.");
+            
+        
     }
 
     @Override
-    public Customer deleteCustomer(Integer Customer_id) throws CustomerException {
-        Optional<Customer>optionalCustomer= cDao.findById(Customer_id);
-         if(optionalCustomer==null){
-            throw new CustomerException("Customer Not Register Exist");
+    public Customer deleteCustomerById(Integer customerId) throws CustomerException {
+        Optional<Customer> optionalCustomer = cDao.findById(customerId);
+         if(optionalCustomer.isPresent()==false){
+            throw new CustomerException("Customer Not Found");
         }else{
-            Customer extCustomer=optionalCustomer.get();
+            Customer extCustomer = optionalCustomer.get();
             cDao.delete(extCustomer);
+            
+            Optional<User> optUser = userDao.findById(customerId);
+            User existingUser = optUser.get();
+            userDao.delete(existingUser);
+            
             return extCustomer;
         }
     }
@@ -79,9 +113,20 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public List<Customer> viewAllConsumer() throws CustomerException {
         List<Customer> customerList= cDao.findAll();
-        if(customerList==null){
+        if(customerList.size()==0){
             throw new CustomerException("Customer are Not Registered");
         }
         return customerList;
     }
+
+	@Override
+	public String updatePassword(UpdatePasswordDTO dto) throws CustomerException {
+		User user = userDao.findUserByCompIdEmailAndPass(dto.getCompIdEmail(), dto.getOldPassword());
+		if(user!=null) {
+			user.setPassword(dto.getNewPassword());
+			userDao.save(user);
+			return "Password updated successfully";
+		}
+		throw new CustomerException("Invalid details provided. Please, try again.");
+	}
 }

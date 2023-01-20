@@ -1,8 +1,8 @@
 package com.OnlineShoppingApp.Controller;
 
 import com.OnlineShoppingApp.DTO.AdminLogInDTO;
-import com.OnlineShoppingApp.DTO.UserDTO;
-import com.OnlineShoppingApp.Service.CustomerLoginLogout;
+import com.OnlineShoppingApp.DTO.CustomerLogInDTO;
+import com.OnlineShoppingApp.Service.CustomerLoginLogoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +17,16 @@ import javax.security.auth.login.LoginException;
 public class CustomerLoginLogoutController {
 
     @Autowired
-    private CustomerLoginLogout customerLoginLogout;
+    private CustomerLoginLogoutService customerLoginLogout;
 
     @PostMapping("/customer/login")
-    public ResponseEntity<String> logInCustomer(@RequestBody UserDTO dto) throws LoginException {
+    public ResponseEntity<String> logInCustomer(@RequestBody CustomerLogInDTO dto){
         String result = customerLoginLogout.customerLogin(dto);
         return new ResponseEntity<String>(result, HttpStatus.OK );
     }
 
     @PostMapping("/customer/logout")
-    public String logoutAdmin(@RequestParam(required = false) Integer id) throws LoginException {
-        return customerLoginLogout.customerLogout(id);
+    public String logoutAdmin(@RequestParam(required = false) Integer id, String key){
+        return customerLoginLogout.customerLogout(id, key);
     }
 }

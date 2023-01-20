@@ -31,7 +31,6 @@ public class Customer {
 	private String lastName;
 	private String mobileNumber;
 	private String email;
-	private String password;
 	
 	@JsonIgnore
 	@ManyToMany // Always Bidirectional
