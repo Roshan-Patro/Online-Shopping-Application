@@ -78,8 +78,8 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<ErrorDetails>(err,HttpStatus.BAD_REQUEST);
 	}
 
-	@ExceptionHandler(LoginException.class)
-	public ResponseEntity<ErrorDetails> loginExceptionHandler(LoginException e,WebRequest w){
+	@ExceptionHandler(LoginLogoutException.class)
+	public ResponseEntity<ErrorDetails> loginLogoutException(LoginLogoutException e,WebRequest w){
 		ErrorDetails err=new ErrorDetails(LocalDateTime.now(),e.getMessage(),w.getDescription(false));
 		return new ResponseEntity<ErrorDetails>(err,HttpStatus.BAD_REQUEST);
 	}
