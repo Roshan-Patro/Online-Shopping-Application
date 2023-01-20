@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class AdminUpdateDTO {
-	private Integer adminLoginId;
-    private String adminCompanyId;
-    private String adminName;
+public class CustomerUpdateDTO {
+	private Integer customerId;
+	private String firstName;
+	private String lastName;
+	private String mobileNumber;
+	private String email;
 }

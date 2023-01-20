@@ -1,6 +1,6 @@
 package com.OnlineShoppingApp.Exception;
 
-public class LoginLogoutException extends Exception{
+public class LoginLogoutException extends RuntimeException{
 
     public LoginLogoutException() {
     }

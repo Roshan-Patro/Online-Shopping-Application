@@ -2,6 +2,7 @@ package com.OnlineShoppingApp.Controller;
 
 import com.OnlineShoppingApp.DTO.AdminRegisterDTO;
 import com.OnlineShoppingApp.DTO.AdminUpdateDTO;
+import com.OnlineShoppingApp.DTO.UpdatePasswordDTO;
 import com.OnlineShoppingApp.Entity.Admin;
 import com.OnlineShoppingApp.Exception.AdminException;
 import com.OnlineShoppingApp.Service.AdminService;
@@ -56,6 +57,12 @@ public class AdminController {
         List<Admin> getListAdmin = adminService.allAdmin();
 
         return new ResponseEntity<List<Admin>>(getListAdmin, HttpStatus.CREATED);
+    }
+    
+    @PutMapping("/updateAdminPassword")
+    public ResponseEntity<String> updatePassword(@RequestBody UpdatePasswordDTO dto){
+        String updatePass= adminService.updatePassword(dto);
+        return new ResponseEntity<String>(updatePass, HttpStatus.ACCEPTED);
     }
 
 }

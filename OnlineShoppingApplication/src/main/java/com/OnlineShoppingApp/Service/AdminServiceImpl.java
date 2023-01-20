@@ -3,11 +3,13 @@ package com.OnlineShoppingApp.Service;
 import com.OnlineShoppingApp.Repository.*;
 import com.OnlineShoppingApp.DTO.AdminRegisterDTO;
 import com.OnlineShoppingApp.DTO.AdminUpdateDTO;
+import com.OnlineShoppingApp.DTO.UpdatePasswordDTO;
 import com.OnlineShoppingApp.Entity.Admin;
 import com.OnlineShoppingApp.Entity.CurrentSession;
 import com.OnlineShoppingApp.Entity.User;
 import com.OnlineShoppingApp.Enum.Role;
 import com.OnlineShoppingApp.Exception.AdminException;
+import com.OnlineShoppingApp.Exception.CustomerException;
 import com.OnlineShoppingApp.Exception.LoginLogoutException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +64,7 @@ public class AdminServiceImpl implements AdminService{
             
             Optional<User> optUser = userDao.findById(updatedAdmin.getAdminLoginId());
             User existingUser = optUser.get();
-            existingUser.setCompIdEmail(admin.getAdminCompanyId());
-            existingUser.setPassword(adminUpdtDto.getPassword());
+            existingUser.setCompIdEmail(updatedAdmin.getAdminCompanyId());
             userDao.save(existingUser);
             
             return updatedAdmin;
@@ -108,6 +109,17 @@ public class AdminServiceImpl implements AdminService{
         }
         return adminList;
     }
+
+	@Override
+	public String updatePassword(UpdatePasswordDTO dto) throws AdminException {
+			User user = userDao.findUserByCompIdEmailAndPass(dto.getCompIdEmail(), dto.getOldPassword());
+			if(user!=null) {
+				user.setPassword(dto.getNewPassword());
+				userDao.save(user);
+				return "Password updated successfully";
+			}
+			throw new CustomerException("Invalid details provided. Please, try again.");
+	}
 
 
 }

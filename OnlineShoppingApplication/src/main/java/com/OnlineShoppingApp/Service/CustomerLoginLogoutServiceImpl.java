@@ -2,9 +2,11 @@ package com.OnlineShoppingApp.Service;
 
 import com.OnlineShoppingApp.Repository.*;
 import com.OnlineShoppingApp.Entity.CurrentSession;
-import com.OnlineShoppingApp.DTO.UserDTO;
+import com.OnlineShoppingApp.DTO.CustomerLogInDTO;
 import com.OnlineShoppingApp.Entity.Customer;
+import com.OnlineShoppingApp.Entity.User;
 import com.OnlineShoppingApp.Enum.Role;
+import com.OnlineShoppingApp.Exception.LoginLogoutException;
 
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,26 +18,30 @@ import java.util.Optional;
 
 
 @Service
-public class CustomerLoginLogoutImpl implements CustomerLoginLogout {
+public class CustomerLoginLogoutServiceImpl implements CustomerLoginLogoutService {
 
     @Autowired
     private CustomerDao customerDao;
 
     @Autowired
     private SessionDao sessionDao;
+    
+    @Autowired
+    private UserDao userDao;
 
     @Override
-    public String customerLogin(UserDTO dto) throws LoginException {
+    public String customerLogin(CustomerLogInDTO dto) throws LoginLogoutException {
 
         Customer existCustomer= customerDao.findByEmail(dto.getEmail());
         if(existCustomer==null){
-            throw new LoginException("Customer not Login.....");
+            throw new LoginLogoutException("Customer doesn't exist..!");
         }
         Optional<CurrentSession> validSessionOpt= sessionDao.findById(existCustomer.getCustomerId());
         if(validSessionOpt.isPresent()) {
-            throw new LoginException("Customer already Logged In");
+            throw new LoginLogoutException("Customer already Logged In");
         }
-        if(existCustomer.getPassword().equals(dto.getPassword())) {
+        User existingUser = userDao.findByCompIdEmail(dto.getEmail());
+        if(existingUser.getPassword().equals(dto.getPassword())) {
             String ConsumerOTP= RandomString.make(4);
 
             CurrentSession currentSession = new CurrentSession(existCustomer.getCustomerId(),Role.CUSTOMER,ConsumerOTP, LocalDateTime.now());
@@ -45,19 +51,23 @@ public class CustomerLoginLogoutImpl implements CustomerLoginLogout {
             return currentSession.toString();
         }
         else{
-            throw new LoginException("Please Enter a valid password");
+            throw new LoginLogoutException("Please Enter a valid password");
         }
     }
 
     @Override
-    public String customerLogout(Integer id) throws LoginException {
-        CurrentSession validConsumerSession = sessionDao.findById(id).orElseThrow(()-> new LoginException("User Not Logged ...."));
+    public String customerLogout(Integer userId, String key) throws LoginLogoutException {
+    	CurrentSession validSession = sessionDao.findByUuid(key);
+    	
+    	if(validSession==null) {
+        	throw new LoginLogoutException("Invalid key");
+        }
 
-        if(validConsumerSession.getRole().toString().equalsIgnoreCase("CONSUMER")){
-            sessionDao.delete(validConsumerSession);
+        if(validSession.getRole().toString().equalsIgnoreCase("CUSTOMER") && validSession.getId()==userId){
+            sessionDao.delete(validSession);
             return "Logged Out !";
         }else
-            throw new LoginException("Please enter Valid Customer ID");
+            throw new LoginLogoutException("Invalid customer id or admin has not logged in.");
 
     }
 }
