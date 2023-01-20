@@ -1,5 +1,7 @@
 package com.OnlineShoppingApp.Controller;
 
+import com.OnlineShoppingApp.DTO.AdminRegisterDTO;
+import com.OnlineShoppingApp.DTO.AdminUpdateDTO;
 import com.OnlineShoppingApp.Entity.Admin;
 import com.OnlineShoppingApp.Exception.AdminException;
 import com.OnlineShoppingApp.Service.AdminService;
@@ -17,17 +19,17 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping("/admin")
-    public ResponseEntity<Admin> saveAdmin(@RequestBody Admin admin) throws AdminException {
+    public ResponseEntity<Admin> addAdmin(@RequestBody AdminRegisterDTO adminRegDto) throws AdminException {
 
-        Admin savedAdmin = adminService.addAdmin(admin);
+        Admin savedAdmin = adminService.addAdmin(adminRegDto);
 
         return new ResponseEntity<Admin>(savedAdmin, HttpStatus.CREATED);
     }
 
     @PutMapping("/adminUpdate")
-    public ResponseEntity<Admin> updateAdmin(@RequestBody Admin admin) throws AdminException {
+    public ResponseEntity<Admin> updateAdmin(@RequestBody AdminUpdateDTO adminUpdtDto, @RequestParam("key") String key) throws AdminException {
 
-        Admin updateAdmin = adminService.updateAdmin(admin);
+        Admin updateAdmin = adminService.updateAdmin(adminUpdtDto, key);
 
         return new ResponseEntity<Admin>(updateAdmin, HttpStatus.CREATED);
     }

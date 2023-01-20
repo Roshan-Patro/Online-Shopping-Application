@@ -1,5 +1,7 @@
 package com.OnlineShoppingApp.Service;
 
+import com.OnlineShoppingApp.DTO.AdminRegisterDTO;
+import com.OnlineShoppingApp.DTO.AdminUpdateDTO;
 import com.OnlineShoppingApp.Entity.Admin;
 import com.OnlineShoppingApp.Exception.AdminException;
 
@@ -7,9 +9,9 @@ import java.util.List;
 
 public interface AdminService {
 
-    public Admin addAdmin(Admin admin)throws AdminException;
+    public Admin addAdmin(AdminRegisterDTO adminRegDto)throws AdminException;
 
-    public Admin updateAdmin(Admin admin)throws AdminException;
+    public Admin updateAdmin(AdminUpdateDTO adminUpdtDto, String key)throws AdminException;
 
     public Admin getAdminById(Integer adminId) throws AdminException;
 

@@ -1,6 +1,7 @@
 package com.OnlineShoppingApp.DTO;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,10 +9,8 @@ import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@Getter
-@Setter
-public class AdminDTO {
+@Data
+public class AdminLogInDTO {
 	private String adminCompanyId;
 	private String password;
 }

@@ -2,10 +2,12 @@ package com.OnlineShoppingApp.Entity;
 
 import lombok.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 
 @NoArgsConstructor
@@ -19,5 +21,4 @@ public class Admin {
     private Integer adminLoginId;
     private String adminCompanyId;
     private String adminName;
-    private String password;
 }

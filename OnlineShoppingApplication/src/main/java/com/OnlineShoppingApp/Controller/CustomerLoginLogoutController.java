@@ -1,6 +1,6 @@
 package com.OnlineShoppingApp.Controller;
 
-import com.OnlineShoppingApp.DTO.AdminDTO;
+import com.OnlineShoppingApp.DTO.AdminLogInDTO;
 import com.OnlineShoppingApp.DTO.UserDTO;
 import com.OnlineShoppingApp.Service.CustomerLoginLogout;
 import org.springframework.beans.factory.annotation.Autowired;
