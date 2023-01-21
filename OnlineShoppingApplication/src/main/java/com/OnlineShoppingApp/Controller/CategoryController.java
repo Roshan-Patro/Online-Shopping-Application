@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.OnlineShoppingApp.Entity.Category;
+import com.OnlineShoppingApp.Entity.Product;
+import com.OnlineShoppingApp.Repository.SessionDao;
 import com.OnlineShoppingApp.Service.CategoryService;
 
 @RestController
@@ -24,25 +27,34 @@ public class CategoryController {
 	@Autowired
 	private CategoryService cservice;
 	
-	@PostMapping("/")
-	public ResponseEntity<Category> addCategoryHandler(@RequestBody Category category){
+	
+	
+	@PostMapping("/addCat")
+	public ResponseEntity<Category> addCategory(@RequestBody Category category, @RequestParam String key){
 		
-		return new ResponseEntity<Category>(cservice.addCategory(category), HttpStatus.CREATED);
+		return new ResponseEntity<Category>(cservice.addCategory(category, key), HttpStatus.CREATED);
 	
 	}
 	
 	
-	@DeleteMapping("/{cname}")
-	public ResponseEntity<Category> removeCategoryHandler(@PathVariable("cname") String categoryName){
+	@DeleteMapping("/removeCat/{cname}")
+	public ResponseEntity<Category> removeCategory(@PathVariable("cname") String categoryName, @RequestParam String key){
 		
-		return new ResponseEntity<Category>(cservice.removeCategory(categoryName), HttpStatus.CREATED);
+		return new ResponseEntity<Category>(cservice.removeCategory(categoryName,key), HttpStatus.OK);
 	
 	}
 	
-	@GetMapping("/")
-	public ResponseEntity<List<Category>> getAllCategoryHandler(){
+	@GetMapping("/getAllCat")
+	public ResponseEntity<List<Category>> getAllCategory(){
 		
-		return new ResponseEntity<List<Category>>(cservice.getAllCategory(), HttpStatus.CREATED);
+		return new ResponseEntity<List<Category>>(cservice.getAllCategory(), HttpStatus.ACCEPTED);
+	
+	}
+	
+	@GetMapping("/getCatById/{catId}")
+	public ResponseEntity<Category> getCategoryById(@PathVariable("catId") Integer catId){
+		
+		return new ResponseEntity<Category>(cservice.getCategoryById(catId), HttpStatus.ACCEPTED);
 	
 	}
 	
