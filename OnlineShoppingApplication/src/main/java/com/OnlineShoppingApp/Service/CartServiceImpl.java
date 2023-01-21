@@ -99,12 +99,14 @@ public class CartServiceImpl implements CartService{
 		if(validSession!=null && validSession.getRole().toString().equals("CUSTOMER")) {
 			Optional<Customer> customerOpt = customerDao.findById(customerId);
 			if(customerOpt.isPresent()) {
-				List<CartProduct> cartProducts = customerOpt.get().getCart().getCartProductList();
+				Customer existingCustomer = customerOpt.get();
+				List<CartProduct> cartProducts = existingCustomer.getCart().getCartProductList();
+				
 				if(cartProducts.size()!=0) {
-					for(CartProduct cp:cartProducts) {
-						cpDao.delete(cp);
+					for(int i=0;i<cartProducts.size();i++) {
+						cpDao.delete(cartProducts.get(i));
 					}
-					return cartDao.save(customerOpt.get().getCart());
+					return cartDao.save(existingCustomer.getCart());
 				}
 				throw new CartException("No product present in the cart of customer with id: "+customerId);
 			}

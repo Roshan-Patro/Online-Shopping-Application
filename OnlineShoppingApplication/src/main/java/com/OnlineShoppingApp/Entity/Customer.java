@@ -33,7 +33,7 @@ public class Customer {
 	private String email;
 	
 	@JsonIgnore
-	@ManyToMany // Always Bidirectional
+	@ManyToMany(cascade = CascadeType.ALL) // Always Bidirectional
 	private List<Address> addressList;
 	
 	@JsonIgnore
