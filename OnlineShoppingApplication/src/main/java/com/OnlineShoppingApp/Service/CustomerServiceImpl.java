@@ -4,6 +4,7 @@ import com.OnlineShoppingApp.Repository.*;
 import com.OnlineShoppingApp.DTO.CustomerRegisterDTO;
 import com.OnlineShoppingApp.DTO.CustomerUpdateDTO;
 import com.OnlineShoppingApp.DTO.UpdatePasswordDTO;
+import com.OnlineShoppingApp.Entity.Cart;
 import com.OnlineShoppingApp.Entity.CurrentSession;
 import com.OnlineShoppingApp.Entity.Customer;
 import com.OnlineShoppingApp.Entity.User;
@@ -40,6 +41,12 @@ public class CustomerServiceImpl implements CustomerService{
         customer.setLastName(customerRegisterDTO.getLastName());
         customer.setEmail(customerRegisterDTO.getEmail());
         customer.setMobileNumber(customerRegisterDTO.getMobileNumber());
+        
+        Cart cart = new Cart();
+        cart.setCustomer(customer);
+        
+        customer.setCart(cart);
+        
         Customer newCustomer= cDao.save(customer);
         
         User user = new User(newCustomer.getCustomerId(),newCustomer.getEmail(),customerRegisterDTO.getPassword(),Role.CUSTOMER);
