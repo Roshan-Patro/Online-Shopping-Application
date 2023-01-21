@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.OnlineShoppingApp.Enum.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -29,14 +32,16 @@ public class Orders {
 	private Integer orderId;
 	
 	private LocalDate orderDate;
-	private String orderStatus;
+	
+	@Enumerated(EnumType.STRING)
+	private Status orderStatus;
 	
 	@JsonIgnore
 	@ManyToOne // Bidirectional
 	private Customer customer;
 	
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL) // Unidirectional
+	@OneToMany // Unidirectional
 	@JoinColumn(name = "ORDERID")
 	private List<CartProduct> cartProductList;
 	
