@@ -37,7 +37,7 @@ public class Customer {
 	private List<Address> addressList;
 	
 	@JsonIgnore
-	@OneToOne(mappedBy = "customer") //Bidirectional
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "customer") //Bidirectional
 	private Cart cart;
 	
 	@JsonIgnore

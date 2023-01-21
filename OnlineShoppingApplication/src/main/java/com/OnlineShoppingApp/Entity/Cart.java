@@ -31,6 +31,6 @@ public class Cart {
 	private List<CartProduct> cartProductList;
 	
 	@JsonIgnore
-	@OneToOne(cascade = CascadeType.ALL) // Bidirectional
+	@OneToOne // Bidirectional
 	private Customer customer;
 }
