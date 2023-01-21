@@ -76,12 +76,6 @@ public class ProductServiceImpl implements ProductService{
 		}
 		else {
 			
-			Category category = new Category();
-			
-			category.setCategoryName(product.getCategory().getCategoryName());
-			
-			
-			
 			existingProduct.setColor(product.getColor());
 			existingProduct.setDimension(product.getDimension());
 			existingProduct.setManufacturer(product.getManufacturer());
@@ -89,11 +83,7 @@ public class ProductServiceImpl implements ProductService{
 			existingProduct.setProductName(product.getProductName());
 			existingProduct.setSpecification(product.getSpecification());
 			
-			existingProduct.setCategory(category);
-			category.getProductList().add(existingProduct);
-			
-			return existingProduct;
-			
+			return prepo.save(existingProduct);
 			
 		}
 	}
