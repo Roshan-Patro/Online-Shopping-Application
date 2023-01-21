@@ -31,8 +31,8 @@ public class CustomerController {
         return new ResponseEntity<Customer>(view, HttpStatus.ACCEPTED);
     }
 
-    @PutMapping("/updateCustomer/{customer_Id}")
-    public ResponseEntity<Customer> updateCustomer(@RequestBody CustomerUpdateDTO customerUpdtDto, @PathVariable String key){
+    @PutMapping("/updateCustomer")
+    public ResponseEntity<Customer> updateCustomer(@RequestBody CustomerUpdateDTO customerUpdtDto, @RequestParam("key") String key){
         Customer update= cServ.updateCustomer(customerUpdtDto, key);
         return new ResponseEntity<Customer>(update, HttpStatus.ACCEPTED);
     }
