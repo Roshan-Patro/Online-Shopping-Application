@@ -39,6 +39,7 @@ public class CustomerServiceImpl implements CustomerService{
         customer.setFirstName(customerRegisterDTO.getFirstName());
         customer.setLastName(customerRegisterDTO.getLastName());
         customer.setEmail(customerRegisterDTO.getEmail());
+        customer.setMobileNumber(customerRegisterDTO.getMobileNumber());
         Customer newCustomer= cDao.save(customer);
         
         User user = new User(newCustomer.getCustomerId(),newCustomer.getEmail(),customerRegisterDTO.getPassword(),Role.CUSTOMER);
