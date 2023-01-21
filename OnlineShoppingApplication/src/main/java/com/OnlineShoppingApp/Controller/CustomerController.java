@@ -25,8 +25,8 @@ public class CustomerController {
         return new ResponseEntity<Customer>(add, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/viewByCustomerId/{customer_Id}")
-    public ResponseEntity<Customer> viewCustomerById(@PathVariable Integer customerId){
+    @GetMapping("/viewByCustomerId/{customerId}")
+    public ResponseEntity<Customer> viewCustomerById(@PathVariable("customerId") Integer customerId){
         Customer view= cServ.viewCustomerById(customerId);
         return new ResponseEntity<Customer>(view, HttpStatus.ACCEPTED);
     }
@@ -37,8 +37,8 @@ public class CustomerController {
         return new ResponseEntity<Customer>(update, HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping("/deleteCustomer/{customer_Id}")
-    public ResponseEntity<Customer> deleteCustomerById(@PathVariable Integer customerId){
+    @DeleteMapping("/deleteCustomer/{customerId}")
+    public ResponseEntity<Customer> deleteCustomerById(@PathVariable("customerId") Integer customerId){
         Customer delete= cServ.deleteCustomerById(customerId);
         return new ResponseEntity<Customer>(delete, HttpStatus.ACCEPTED);
     }

@@ -13,11 +13,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Entity
 public class Category {
 	
@@ -28,6 +30,7 @@ public class Category {
 	private String categoryName;
 	
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category") // Bidirectional
+	@OneToMany(cascade = CascadeType.ALL ,mappedBy = "category") // Bidirectional
 	private List<Product> productList;
+	
 }

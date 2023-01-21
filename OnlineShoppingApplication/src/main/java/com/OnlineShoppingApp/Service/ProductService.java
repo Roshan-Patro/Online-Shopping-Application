@@ -8,18 +8,18 @@ import com.OnlineShoppingApp.Exception.ProductException;
 
 public interface ProductService {
 	
-	public List<Product> viewAllProduct() throws ProductException;
+	public List<Product> viewAllProducts() throws ProductException;
 	
-	public Product addProduct(Product product) throws ProductException;
+	public Product addProduct(Product product, String key) throws ProductException;
 	
-	public Product updateProduct(Product product) throws ProductException;
+	public Product updateProduct(Product product, String key) throws ProductException;
 	
 	public Product viewProductById(Integer productID) throws ProductException;
 	
-	public List<Product> viewProductByCategory(String categoryName) throws ProductException, CategoryException;
+	public List<Product> viewProductsByCategory(String categoryName) throws ProductException, CategoryException;
 	
-	public Product removeProduct(Integer productID) throws ProductException;
+	public Product removeProduct(Integer productID, String key) throws ProductException;
 	
-	public Product addCategoryToTheProduct(Integer productId, String cname) throws ProductException, CategoryException;
+	public Product addCategoryToTheProduct(Integer productId, String cname, String key) throws ProductException, CategoryException;
 	
 }

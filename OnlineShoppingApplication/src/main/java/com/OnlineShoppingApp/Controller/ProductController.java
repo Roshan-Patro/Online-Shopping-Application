@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.OnlineShoppingApp.Entity.Product;
@@ -25,55 +26,55 @@ public class ProductController {
 	private ProductService pservice;
 	
 	@PostMapping("/")
-	public ResponseEntity<Product> addProductHandler(@RequestBody Product product){
+	public ResponseEntity<Product> addProduct(@RequestBody Product product, @RequestParam String key){
 		
-		return new ResponseEntity<Product>(pservice.addProduct(product), HttpStatus.CREATED);
+		return new ResponseEntity<Product>(pservice.addProduct(product, key), HttpStatus.CREATED);
 	
 	}
 	
 	
 	@GetMapping("/")
-	public ResponseEntity<List<Product>> viewAllProductHandler(){
+	public ResponseEntity<List<Product>> viewAllProducts(){
 		
-		return new ResponseEntity<List<Product>>(pservice.viewAllProduct(), HttpStatus.OK);
+		return new ResponseEntity<List<Product>>(pservice.viewAllProducts(), HttpStatus.OK);
 	
 	}
 	
-	@PutMapping("/")
-	public ResponseEntity<Product> updateProductHandler(@RequestBody Product product){
+	@PutMapping("/updateProduct")
+	public ResponseEntity<Product> updateProduct(@RequestBody Product product, @RequestParam String key){
 		
-		return new ResponseEntity<Product>(pservice.updateProduct(product), HttpStatus.CREATED);
+		return new ResponseEntity<Product>(pservice.updateProduct(product, key), HttpStatus.OK);
 	
 	}
 	
 	
-	@GetMapping("/{pid}")
-	public ResponseEntity<Product> viewProductByIdHandler(@PathVariable("pid") Integer productId){
+	@GetMapping("/viewProductById/{pid}")
+	public ResponseEntity<Product> viewProductById(@PathVariable("pid") Integer productId){
 		
 		return new ResponseEntity<Product>(pservice.viewProductById(productId), HttpStatus.OK);
 	
 	}
 	
 	
-	@GetMapping("/{cname}")
-	public ResponseEntity<List<Product>> viewProductByCategoryHandler(@PathVariable("cname") String cname){
+	@GetMapping("/viewProductsByCategory/{cname}")
+	public ResponseEntity<List<Product>> viewProductsByCategory(@PathVariable("cname") String cname){
 		
-		return new ResponseEntity<List<Product>>(pservice.viewProductByCategory(cname), HttpStatus.OK);
+		return new ResponseEntity<List<Product>>(pservice.viewProductsByCategory(cname), HttpStatus.OK);
 	
 	}
 	
 	
-	@DeleteMapping("/{pid}")
-	public ResponseEntity<Product> removeProductHandler(@PathVariable("pid") Integer productId){
+	@DeleteMapping("/deleteProductById/{pid}")
+	public ResponseEntity<Product> removeProduct(@PathVariable("pid") Integer productId, @RequestParam String key){
 		
-		return new ResponseEntity<Product>(pservice.removeProduct(productId), HttpStatus.OK);
+		return new ResponseEntity<Product>(pservice.removeProduct(productId, key), HttpStatus.OK);
 	
 	}
 	
-	@PutMapping("/{pid}/{cname}")
-	public ResponseEntity<Product> updateProductHandler(@PathVariable("pid") Integer productID, @PathVariable("cname") String categoryName){
+	@PutMapping("/addProdToCat/{pid}/{cname}")
+	public ResponseEntity<Product> addProductToACategory(@PathVariable("pid") Integer productID, @PathVariable("cname") String categoryName, @RequestParam String key){
 		
-		return new ResponseEntity<Product>(pservice.addCategoryToTheProduct(productID, categoryName), HttpStatus.CREATED);
+		return new ResponseEntity<Product>(pservice.addCategoryToTheProduct(productID, categoryName, key), HttpStatus.CREATED);
 	
 	}
 	

@@ -107,6 +107,12 @@ public class CustomerServiceImpl implements CustomerService{
             User existingUser = optUser.get();
             userDao.delete(existingUser);
             
+            Optional<CurrentSession> sessionOpt = sDao.findById(customerId);
+            if(sessionOpt.isPresent()) {
+            	CurrentSession sessionObj = sessionOpt.get();
+            	sDao.delete(sessionObj);
+            }
+            
             return extCustomer;
         }
     }

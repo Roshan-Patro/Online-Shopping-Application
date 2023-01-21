@@ -95,6 +95,12 @@ public class AdminServiceImpl implements AdminService{
             User existingUser = optUser.get();
             userDao.delete(existingUser);
             
+            Optional<CurrentSession> sessionOpt = sDao.findById(adminId);
+            if(sessionOpt.isPresent()) {
+            	CurrentSession sessionObj = sessionOpt.get();
+            	sDao.delete(sessionObj);
+            }
+            
             return extAdmin;
         }else {
             throw new AdminException("Admin Not Found by Id");
