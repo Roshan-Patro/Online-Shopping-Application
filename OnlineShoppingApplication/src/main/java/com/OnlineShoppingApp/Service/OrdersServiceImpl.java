@@ -7,6 +7,11 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.OnlineShoppingApp.DTO.AddressDTO;
@@ -327,5 +332,56 @@ public class OrdersServiceImpl implements OrdersService {
 		}
 		throw new AdminException("Invalid key or not of an admin...!");
 	}
+	
+	@Override
+	public List<Orders> viewOrdersWithSortingAsc(String sortBy) throws OrdersException {
+		List<Orders> orderList = odao.findAll(Sort.by(Direction.ASC, sortBy));
+		if (orderList.size() != 0) {
+			return orderList;
+		}
+		throw new OrdersException("No details found. Either the property is invalid or no records available.");
+	}
 
+	@Override
+	public List<Orders> viewOrdersWithSortingDesc(String sortBy) throws OrdersException {
+		List<Orders> orderList = odao.findAll(Sort.by(Direction.DESC, sortBy));
+		if (orderList.size() != 0) {
+			return orderList;
+		}
+		throw new OrdersException("No details found. Either the property is invalid or no records available.");
+	}
+	
+	@Override
+	public List<Orders> viewOrdersWithPaginationAndSortingAsc(Integer pageNo, Integer pageSize, String sortBy)
+			throws OrdersException {
+		Pageable pObj = PageRequest.of(pageNo, pageSize, Sort.by(Direction.ASC, sortBy));
+
+		if (pObj.isPaged()) {
+			Page<Orders> ordersPage = odao.findAll(pObj);
+
+			List<Orders> allOrders = ordersPage.getContent();
+
+			return allOrders;
+		}
+		throw new OrdersException(
+				"No result found for this request...! Please, try again with another set of instructions! :)");
+
+	}
+	
+	@Override
+	public List<Orders> viewOrdersWithPaginationAndSortingDesc(Integer pageNo, Integer pageSize, String sortBy)
+			throws OrdersException {
+		Pageable pObj = PageRequest.of(pageNo, pageSize, Sort.by(Direction.DESC, sortBy));
+
+		if (pObj.isPaged()) {
+			Page<Orders> ordersPage = odao.findAll(pObj);
+
+			List<Orders> allOrders = ordersPage.getContent();
+
+			return allOrders;
+		}
+		throw new OrdersException(
+				"No result found for this request...! Please, try again with another set of instructions! :)");
+
+	}
 }

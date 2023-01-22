@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -27,6 +28,7 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer catId;
 	
+	@Size(min = 3, message = "category name must be of atleast 3 character length.")
 	private String categoryName;
 	
 	@JsonIgnore

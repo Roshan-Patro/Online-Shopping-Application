@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -27,9 +30,16 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer customerId;
 	
+	@Size(min = 3, message = "first name must be of atleast 3 character length.")
 	private String firstName;
+	
+	@Size(min = 3, message = "last name must be of atleast 3 character length.")
 	private String lastName;
+	
+	@Pattern(regexp = "^[0-9]{10}",message="Mobile number length must be 10 digits [0-9]")
 	private String mobileNumber;
+	
+	@Email(message = "Email must be a valid one.")
 	private String email;
 	
 	@JsonIgnore

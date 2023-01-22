@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.OnlineShoppingApp.DTO.AddressDTO;
+import com.OnlineShoppingApp.Entity.Address;
 import com.OnlineShoppingApp.Entity.Orders;
 import com.OnlineShoppingApp.Service.OrdersService;
 
@@ -67,4 +68,29 @@ public class OrdersController {
 		return new ResponseEntity<>(oService.updateOrderStatus(orderId,newStat,key), HttpStatus.ACCEPTED);
 	}
 	
+	@GetMapping("/sortAsc")
+	public ResponseEntity<List<Orders>> viewOrdersWithSortingAsc(@RequestParam("sortBy") String sortBy) {
+		return new ResponseEntity<>(oService.viewOrdersWithSortingAsc(sortBy), HttpStatus.ACCEPTED);
+	}
+	
+	@GetMapping("/sortDesc")
+	public ResponseEntity<List<Orders>> viewOrdersWithSortingDesc(@RequestParam("sortBy") String sortBy) {
+		return new ResponseEntity<>(oService.viewOrdersWithSortingDesc(sortBy), HttpStatus.ACCEPTED);
+	}
+	
+	@GetMapping("/paginateSortAsc")
+	public ResponseEntity<List<Orders>> viewOrdersWithPaginationAndSortingAsc(
+			@RequestParam("pageNo") Integer pageNo, @RequestParam("pageSize") Integer pageSize,
+			@RequestParam("sortBy") String sortBy) {
+		return new ResponseEntity<>(oService.viewOrdersWithPaginationAndSortingAsc(pageNo, pageSize, sortBy),
+				HttpStatus.ACCEPTED);
+	}
+	
+	@GetMapping("/paginateSortDesc")
+	public ResponseEntity<List<Orders>> viewOrdersWithPaginationAndSortingDesc(
+			@RequestParam("pageNo") Integer pageNo, @RequestParam("pageSize") Integer pageSize,
+			@RequestParam("sortBy") String sortBy) {
+		return new ResponseEntity<>(oService.viewOrdersWithPaginationAndSortingDesc(pageNo, pageSize, sortBy),
+				HttpStatus.ACCEPTED);
+	}
 }

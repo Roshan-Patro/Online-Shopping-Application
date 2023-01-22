@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import com.OnlineShoppingApp.Enum.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,11 +32,13 @@ public class Orders {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer orderId;
 	
+	@NotNull(message = "orderDate cannot be null")
 	private LocalDate orderDate;
 	
 //	@Enumerated(EnumType.STRING)
 //	private Status orderStatus;
 	
+	@NotNull(message = "orderStatus cannot be null")
 	private String orderStatus;
 	
 	@JsonIgnore
