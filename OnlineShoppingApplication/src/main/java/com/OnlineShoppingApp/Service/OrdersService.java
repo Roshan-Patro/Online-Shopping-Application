@@ -6,14 +6,17 @@ import java.util.List;
 import com.OnlineShoppingApp.DTO.AddressDTO;
 import com.OnlineShoppingApp.Entity.Orders;
 import com.OnlineShoppingApp.Exception.AddressException;
+import com.OnlineShoppingApp.Exception.AdminException;
 import com.OnlineShoppingApp.Exception.CustomerException;
 import com.OnlineShoppingApp.Exception.OrdersException;
 
 public interface OrdersService {
 	
-	public Orders addOrder(Orders order, Integer customerID, Integer addressId) throws OrdersException, CustomerException, AddressException;
+	public Orders addOrderWithExistingAddress(Integer customerId, Integer addressId, String key) throws OrdersException, CustomerException, AddressException;
 	
 	public Orders addOrderWithNewAddress(Integer customerId, AddressDTO dto, String key) throws CustomerException,OrdersException;
+	
+	public Orders updateOrderStatus(Integer orderId, String newStatus, String key) throws OrdersException, AdminException;
 	
 	public Orders updateOrder(Orders order) throws OrdersException;
 	
@@ -21,7 +24,7 @@ public interface OrdersService {
 	
 	public Orders getOrderByOrderId(Integer orderId) throws OrdersException;
 	
-	public List<Orders> getAllOrdersByDate(LocalDate date) throws OrdersException;
+	public List<Orders> getAllOrdersByDate(String date) throws OrdersException;
 	
 	public List<Orders> getAllOrderByCityName(String city) throws OrdersException;
 	
