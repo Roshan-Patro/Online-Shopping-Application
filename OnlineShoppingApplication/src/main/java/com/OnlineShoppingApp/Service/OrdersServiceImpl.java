@@ -16,12 +16,16 @@ import com.OnlineShoppingApp.Entity.CurrentSession;
 import com.OnlineShoppingApp.Entity.Customer;
 import com.OnlineShoppingApp.Entity.Orders;
 import com.OnlineShoppingApp.Entity.Product;
+import com.OnlineShoppingApp.Enum.CartProductStatus;
+import com.OnlineShoppingApp.Enum.Role;
 import com.OnlineShoppingApp.Enum.Status;
 import com.OnlineShoppingApp.Exception.AddressException;
+import com.OnlineShoppingApp.Exception.AdminException;
 import com.OnlineShoppingApp.Exception.CartException;
 import com.OnlineShoppingApp.Exception.CustomerException;
 import com.OnlineShoppingApp.Exception.OrdersException;
 import com.OnlineShoppingApp.Repository.AddressDao;
+import com.OnlineShoppingApp.Repository.CartProductDao;
 import com.OnlineShoppingApp.Repository.CustomerDao;
 import com.OnlineShoppingApp.Repository.OrdersDao;
 import com.OnlineShoppingApp.Repository.ProductDao;
@@ -41,14 +45,162 @@ public class OrdersServiceImpl implements OrdersService {
 	
 	@Autowired
 	private AddressDao addDao;
+	
+	@Autowired
+	private CartProductDao cpDao;
 
 	@Override
-	public Orders addOrder(Orders order, Integer customerID, Integer addressId)
+	public Orders addOrderWithExistingAddress(Integer customerId, Integer addressId, String key)
 			throws OrdersException, CustomerException, AddressException {
 
-		return null;
+		CurrentSession validSession = sessionDao.findByUuid(key);
+		if(validSession!=null && validSession.getRole().toString().equals("CUSTOMER")) {
+			Optional<Customer> customerOpt = cdao.findById(customerId);
+			if(customerOpt.isPresent()) {
+				Customer existingCustomer = customerOpt.get();
+				List<CartProduct> allProductsInCart = existingCustomer.getCart().getCartProductList();
+				List<CartProduct> unorderedCartProducts = new ArrayList<>();
+				for(CartProduct cp:allProductsInCart) {
+					if(cp.getCpStatus().toString().equals("UNORDERED")) {
+						unorderedCartProducts.add(cp);
+					}
+				}
+				int unorderedCartSize = unorderedCartProducts.size();
+				if (unorderedCartSize != 0) {
+					Optional<Address> addOpt = addDao.findById(addressId);
+					if(addOpt.isPresent()) {
+//						Address existingAddress = addOpt.get();
+						List<Address> customerAddresses = existingCustomer.getAddressList();
+						Address addressForOrder = new Address();
+						for(Address add:customerAddresses) {
+							if(add.getAddressId()==addressId) {
+								addressForOrder = add;
+							}
+						}
+						if(addressForOrder!=null) {
+							Orders orders = new Orders();
+							orders.setOrderDate(LocalDate.now());
+							orders.setOrderStatus("PENDING");
+							orders.setCartProductList(unorderedCartProducts);
+							
+							for(CartProduct cp:unorderedCartProducts) {
+								cp.setCpStatus(CartProductStatus.ORDERED);
+							}
 
+							orders.setAddress(addressForOrder);
+							if (addressForOrder.getOrderList() == null) {
+								List<Orders> orderListForAddress = new ArrayList<>();
+								orderListForAddress.add(orders);
+								addressForOrder.setOrderList(orderListForAddress);
+							} else {
+								addressForOrder.getOrderList().add(orders);
+							}
+							
+							orders.setCustomer(existingCustomer);
+							if(existingCustomer.getOrderList()==null) {
+								List<Orders> orderListForCustomer = new ArrayList<>();
+								orderListForCustomer.add(orders);
+								existingCustomer.setOrderList(orderListForCustomer);
+							} else {
+								existingCustomer.getOrderList().add(orders);
+							}
+
+							Customer savedCustomer = cdao.save(existingCustomer);
+							List<Orders> orderList = savedCustomer.getOrderList();
+							return orderList.get(orderList.size()-1);
+							
+						}
+						throw new AddressException("This address is not registered with this customer. Please add this address to this customer.");
+					}
+					throw new AddressException("Invalid address id: "+addressId);
+				}
+				throw new OrdersException("No unordered cart product found in cart.");
+			}
+			throw new CustomerException("Invalid customer id: "+customerId);
+		}
+		throw new CustomerException("Invalid key or not of a customer.");
 	}
+	
+	
+	@Override
+	public Orders addOrderWithNewAddress(Integer customerId, AddressDTO dto, String key)
+			throws CustomerException, OrdersException {
+		CurrentSession validSession = sessionDao.findByUuid(key);
+		if (validSession != null && validSession.getRole().toString().equals("CUSTOMER")) {
+			Optional<Customer> customerOpt = cdao.findById(customerId);
+			if (customerOpt.isPresent()) {
+				Customer existingCustomer = customerOpt.get();
+				List<CartProduct> allProductsInCart = existingCustomer.getCart().getCartProductList();
+				List<CartProduct> unorderedCartProducts = new ArrayList<>();
+				for(CartProduct cp:allProductsInCart) {
+					if(cp.getCpStatus().toString().equals("UNORDERED")) {
+						unorderedCartProducts.add(cp);
+					}
+				}
+				int unorderedCartSize = unorderedCartProducts.size();
+				if (unorderedCartSize != 0) {
+					Address address = new Address();
+					address.setBuildingName(dto.getBuildingName());
+					address.setCity(dto.getCity());
+					address.setCountry(dto.getCountry());
+					address.setState(dto.getState());
+					address.setStreetNo(dto.getStreetNo());
+					address.setPincode(dto.getPincode());
+
+					Orders orders = new Orders();
+					orders.setOrderDate(LocalDate.now());
+					orders.setOrderStatus("PENDING");
+					orders.setCartProductList(unorderedCartProducts);
+					
+					for(CartProduct cp:unorderedCartProducts) {
+						cp.setCpStatus(CartProductStatus.ORDERED);
+					}
+
+					orders.setAddress(address);
+					if (address.getOrderList() == null) {
+						List<Orders> orderListForAddress = new ArrayList<>();
+						orderListForAddress.add(orders);
+						address.setOrderList(orderListForAddress);
+					} else {
+						address.getOrderList().add(orders);
+					}
+					
+					orders.setCustomer(existingCustomer);
+					if(existingCustomer.getOrderList()==null) {
+						List<Orders> orderListForCustomer = new ArrayList<>();
+						orderListForCustomer.add(orders);
+						existingCustomer.setOrderList(orderListForCustomer);
+					} else {
+						existingCustomer.getOrderList().add(orders);
+					}
+
+					if (address.getCustomerList() == null) {
+						List<Customer> customerList = new ArrayList<>();
+						customerList.add(existingCustomer);
+						address.setCustomerList(customerList);
+					} else {
+						address.getCustomerList().add(existingCustomer);
+					}
+
+					if (existingCustomer.getAddressList() == null) {
+						List<Address> addressList = new ArrayList<>();
+						addressList.add(address);
+						existingCustomer.setAddressList(addressList);
+					} else {
+						existingCustomer.getAddressList().add(address);
+					}
+
+					Customer savedCustomer = cdao.save(existingCustomer);
+					List<Orders> orderList = savedCustomer.getOrderList();
+					return orderList.get(orderList.size()-1);
+				}
+				throw new OrdersException("No unordered cart product found in cart.");
+			}
+			throw new CustomerException("No customer found with id: " + customerId);
+		}
+		throw new OrdersException("Invalid key or not of a customer...!");
+	}
+
 
 	@Override
 	public Orders updateOrder(Orders order) throws OrdersException {
@@ -107,8 +259,9 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public List<Orders> getAllOrdersByDate(LocalDate date) throws OrdersException {
-		List<Orders> orderList = odao.findByOrderDate(date);
+	public List<Orders> getAllOrdersByDate(String date) throws OrdersException {
+		LocalDate localDate = LocalDate.parse(date);
+		List<Orders> orderList = odao.findByOrderDate(localDate);
 		if(orderList.size()!=0) {
 			return orderList;
 		}
@@ -117,8 +270,25 @@ public class OrdersServiceImpl implements OrdersService {
 
 	@Override
 	public List<Orders> getAllOrderByCityName(String city) throws OrdersException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Address> addressList = addDao.findByCity(city);
+		if(addressList.size()==0) {
+			throw new OrdersException("No address found with this city name: "+city);
+		}
+		
+		List<Orders> orderList = new ArrayList<>();
+		for(Address address:addressList) {
+			List<Orders> subOrderList = address.getOrderList();
+			if(subOrderList.size()!=0) {
+				for(Orders order:subOrderList) {
+					orderList.add(order);
+				}
+			}
+		}
+		if(orderList.size()!=0) {
+			return orderList;
+		}
+		throw new OrdersException("No order found for this city: "+city);
 	}
 
 	@Override
@@ -134,72 +304,28 @@ public class OrdersServiceImpl implements OrdersService {
 		throw new CustomerException("No customer found with id: "+customerId);
 	}
 
+	
 	@Override
-	public Orders addOrderWithNewAddress(Integer customerId, AddressDTO dto, String key)
-			throws CustomerException, OrdersException {
+	public Orders updateOrderStatus(Integer orderId, String newStatus, String key)
+			throws OrdersException, AdminException {
 		CurrentSession validSession = sessionDao.findByUuid(key);
-		if (validSession != null && validSession.getRole().toString().equals("CUSTOMER")) {
-			Optional<Customer> customerOpt = cdao.findById(customerId);
-			if (customerOpt.isPresent()) {
-				Customer existingCustomer = customerOpt.get();
-				int cartSize = existingCustomer.getCart().getCartProductList().size();
-				if (cartSize != 0) {
-					Address address = new Address();
-					address.setBuildingName(dto.getBuildingName());
-					address.setCity(dto.getCity());
-					address.setCountry(dto.getCountry());
-					address.setState(dto.getState());
-					address.setStreetNo(dto.getStreetNo());
-					address.setPincode(dto.getPincode());
-
-					Orders orders = new Orders();
-					orders.setOrderDate(LocalDate.now());
-					orders.setOrderStatus(Status.PENDING);
-					orders.setCartProductList(existingCustomer.getCart().getCartProductList());
-
-					orders.setAddress(address);
-					if (address.getOrderList() == null) {
-						List<Orders> orderListForAddress = new ArrayList<>();
-						orderListForAddress.add(orders);
-						address.setOrderList(orderListForAddress);
-					} else {
-						address.getOrderList().add(orders);
-					}
-					
-					orders.setCustomer(existingCustomer);
-					if(existingCustomer.getOrderList()==null) {
-						List<Orders> orderListForCustomer = new ArrayList<>();
-						orderListForCustomer.add(orders);
-						existingCustomer.setOrderList(orderListForCustomer);
-					} else {
-						existingCustomer.getOrderList().add(orders);
-					}
-
-					if (address.getCustomerList() == null) {
-						List<Customer> customerList = new ArrayList<>();
-						customerList.add(existingCustomer);
-						address.setCustomerList(customerList);
-					} else {
-						address.getCustomerList().add(existingCustomer);
-					}
-
-					if (existingCustomer.getAddressList() == null) {
-						List<Address> addressList = new ArrayList<>();
-						addressList.add(address);
-						existingCustomer.setAddressList(addressList);
-					} else {
-						existingCustomer.getAddressList().add(address);
-					}
-
-					Customer savedCustomer = cdao.save(existingCustomer);
-					List<Orders> orderList = savedCustomer.getOrderList();
-					return orderList.get(orderList.size()-1);
+		if (validSession != null && validSession.getRole().toString().equals(Role.ADMIN.toString())) {
+			Optional<Orders> orderOpt = odao.findById(orderId);
+			if(orderOpt.isPresent()) {
+				Orders existingOrder = orderOpt.get();
+				existingOrder.setOrderStatus(newStatus);
+				List<CartProduct> linkedCartProducts = existingOrder.getCartProductList();
+				while(linkedCartProducts.size()>0) {
+					Optional<CartProduct> cpOpt = cpDao.findById(linkedCartProducts.get(0).getCartProductId());
+					CartProduct existingCp = cpOpt.get();
+					linkedCartProducts.remove(0);
+					cpDao.delete(existingCp);
 				}
-				throw new OrdersException("No cart product found in cart. First add some.");
+				return existingOrder;
 			}
-			throw new CustomerException("No customer found with id: " + customerId);
+			throw new OrdersException("Invlid order id..!");
 		}
-		throw new OrdersException("Invalid key or not of a customer...!");
+		throw new AdminException("Invalid key or not of an admin...!");
 	}
 
 }

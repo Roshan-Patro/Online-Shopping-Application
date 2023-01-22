@@ -33,15 +33,17 @@ public class Orders {
 	
 	private LocalDate orderDate;
 	
-	@Enumerated(EnumType.STRING)
-	private Status orderStatus;
+//	@Enumerated(EnumType.STRING)
+//	private Status orderStatus;
+	
+	private String orderStatus;
 	
 	@JsonIgnore
 	@ManyToOne // Bidirectional
 	private Customer customer;
 	
 	@JsonIgnore
-	@OneToMany // Unidirectional
+	@OneToMany(cascade = CascadeType.ALL) // Unidirectional
 	@JoinColumn(name = "ORDERID")
 	private List<CartProduct> cartProductList;
 	

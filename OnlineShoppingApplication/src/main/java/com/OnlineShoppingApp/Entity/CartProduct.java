@@ -1,11 +1,14 @@
 package com.OnlineShoppingApp.Entity;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.OnlineShoppingApp.Enum.CartProductStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +26,9 @@ public class CartProduct {
 	private Integer cartProductId;
 
 	private Integer quantity;
+	
+	@Enumerated(EnumType.STRING)
+	private CartProductStatus cpStatus;
 	
 	@JsonIgnore
 	@ManyToOne // Bidirectional

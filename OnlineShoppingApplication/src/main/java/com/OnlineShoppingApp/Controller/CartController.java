@@ -29,9 +29,9 @@ public class CartController {
 	private CartService cs;
 	
 	@PostMapping("/addProductToCart")
-	public ResponseEntity<Cart> addProductToCart(@RequestBody AddProductToCartDTO dto, @RequestParam("key") String key){
-		Cart cart = cs.addProductToCart(dto, key);
-		return new ResponseEntity<>(cart, HttpStatus.CREATED);
+	public ResponseEntity<CartProduct> addProductToCart(@RequestBody AddProductToCartDTO dto, @RequestParam("key") String key){
+		CartProduct cartP = cs.addProductToCart(dto, key);
+		return new ResponseEntity<>(cartP, HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/removeCartProduct/{cpId}")
@@ -41,8 +41,8 @@ public class CartController {
 	}
 	
 	@DeleteMapping("/removeAllProductsInCart/{customerId}")
-	public ResponseEntity<Cart> removeAllProductsInCart(@PathVariable("customerId") Integer customerId, @RequestParam("key") String key){
-		Cart c = cs.removeAllProductsInCart(customerId, key);
+	public ResponseEntity<List<CartProduct>> removeAllProductsInCart(@PathVariable("customerId") Integer customerId, @RequestParam("key") String key){
+		List<CartProduct> c = cs.removeAllProductsInCart(customerId, key);
 		return new ResponseEntity<>(c,HttpStatus.OK);
 	}
 	
@@ -58,5 +58,9 @@ public class CartController {
 		return new ResponseEntity<List<CartProduct>>(cpList,HttpStatus.OK);
 	}
 	
-	
+	@GetMapping("/getTotCartPrcByCustomerId/{customerId}")
+	public ResponseEntity<Double> findTotalCartPriceByCustomerId(@PathVariable("customerId") Integer customerId){
+		Double totPrice = cs.findTotalCartPriceByCustomerId(customerId);
+		return new ResponseEntity<Double>(totPrice,HttpStatus.OK);
+	}
 }

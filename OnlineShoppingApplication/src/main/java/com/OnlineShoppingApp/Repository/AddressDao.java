@@ -20,6 +20,9 @@ public interface AddressDao extends JpaRepository<Address, Integer> {
 	// 3. Finding addresses by country and state name
 	@Query("select a from Address a where a.country=?1 AND a.state=?2")
 	public List<Address> findByCountryState(String country, String state);
+	
+	
+	public List<Address> findByCity(String city);
 
 
 }

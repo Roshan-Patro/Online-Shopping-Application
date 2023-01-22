@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,8 +27,13 @@ public class OrdersController {
 	@Autowired
 	private OrdersService oService;
 	
-	@PostMapping("/addOrderWithNewAdd/{cId}")
-	public ResponseEntity<Orders> addOrderWithNewAddress(@PathVariable("cId") Integer customerId, @RequestBody AddressDTO dto, @RequestParam String key){
+	@PostMapping("/addOrderWithExstngAdd/{customerId}/{addressId}")
+	public ResponseEntity<Orders> addOrderWithExstngAddress(@PathVariable("customerId") Integer customerId, @PathVariable("addressId") Integer addressId, @RequestParam String key){
+		return new ResponseEntity<>(oService.addOrderWithExistingAddress(customerId, addressId, key), HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/addOrderWithNewAdd/{customerId}")
+	public ResponseEntity<Orders> addOrderWithNewAddress(@PathVariable("customerId") Integer customerId, @RequestBody AddressDTO dto, @RequestParam String key){
 		return new ResponseEntity<>(oService.addOrderWithNewAddress(customerId, dto, key), HttpStatus.CREATED);
 	}
 	
@@ -37,7 +43,7 @@ public class OrdersController {
 	}
 	
 	@GetMapping("/getByOrderDate/{date}")
-	public ResponseEntity<List<Orders>> getAllOrdersByDate(@PathVariable("date") LocalDate date){
+	public ResponseEntity<List<Orders>> getAllOrdersByDate(@PathVariable("date") String date){
 		return new ResponseEntity<>(oService.getAllOrdersByDate(date), HttpStatus.ACCEPTED);
 	}
 	
@@ -46,9 +52,19 @@ public class OrdersController {
 		return new ResponseEntity<>(oService.getOrderByOrderId(id), HttpStatus.ACCEPTED);
 	}
 	
-	@DeleteMapping("/removeOrderById/{id}")
-	public ResponseEntity<Orders> removeOrder(@PathVariable("id") Integer id, @RequestParam("key") String key){
-		return new ResponseEntity<>(oService.removeOrder(id,key), HttpStatus.ACCEPTED);
+	@GetMapping("/getByOrderCity/{cityName}")
+	public ResponseEntity<List<Orders>> getAllOrderByCityName(@PathVariable("cityName") String city){
+		return new ResponseEntity<>(oService.getAllOrderByCityName(city), HttpStatus.ACCEPTED);
+	}
+	
+	@DeleteMapping("/removeOrderById/{orderId}")
+	public ResponseEntity<Orders> removeOrder(@PathVariable("orderId") Integer orderId, @RequestParam("key") String key){
+		return new ResponseEntity<>(oService.removeOrder(orderId,key), HttpStatus.ACCEPTED);
+	}
+	
+	@PutMapping("/updateOrderStat/{orderId}/{newStatus}")
+	public ResponseEntity<Orders> updateOrderStatus(@PathVariable("orderId") Integer orderId, @PathVariable("newStatus") String newStat, @RequestParam("key") String key){
+		return new ResponseEntity<>(oService.updateOrderStatus(orderId,newStat,key), HttpStatus.ACCEPTED);
 	}
 	
 }
