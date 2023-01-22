@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import com.OnlineShoppingApp.Enum.CartProductStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,8 +27,11 @@ public class CartProduct {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer cartProductId;
 
+   	// @NotNull(message = "slot count cannot be null.")
+	@Min(value = 1, message = "quantity cannot be less than 1")
 	private Integer quantity;
 	
+	// @NotNull
 	@Enumerated(EnumType.STRING)
 	private CartProductStatus cpStatus;
 	

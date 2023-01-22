@@ -30,4 +30,13 @@ public interface OrdersService {
 	
 	public List<Orders> getAllOrdersByCustomerId(Integer customerId) throws OrdersException,CustomerException;
 	
+	public List<Orders> viewOrdersWithSortingAsc(String sortBy) throws OrdersException;
+	
+	public List<Orders> viewOrdersWithSortingDesc(String sortBy) throws OrdersException;
+	
+	public List<Orders> viewOrdersWithPaginationAndSortingAsc(Integer pageNo, Integer pageSize, String sortBy)
+			throws OrdersException;
+	
+	public List<Orders> viewOrdersWithPaginationAndSortingDesc(Integer pageNo, Integer pageSize, String sortBy)
+			throws OrdersException;
 }
