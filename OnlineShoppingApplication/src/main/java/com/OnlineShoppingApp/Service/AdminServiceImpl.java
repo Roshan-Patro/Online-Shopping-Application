@@ -118,12 +118,14 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public String updatePassword(UpdatePasswordDTO dto) throws AdminException {
-			User user = userDao.findUserByCompIdEmailAndPass(dto.getCompIdEmail(), dto.getOldPassword());
-			if(user!=null) {
-				user.setPassword(dto.getNewPassword());
-				userDao.save(user);
+			List<User> userList = userDao.findBycompIdEmailAndpassword(dto.getCompIdEmail(), dto.getOldPassword());
+			if(userList.size()!=0) {
+				System.out.println("1");
+				userList.get(0).setPassword(dto.getNewPassword());
+				userDao.save(userList.get(0));
 				return "Password updated successfully";
 			}
+			System.out.println("1");
 			throw new CustomerException("Invalid details provided. Please, try again.");
 	}
 

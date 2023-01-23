@@ -76,12 +76,13 @@ public class ProductServiceImpl implements ProductService{
 	public Product updateProduct(Product product, String key) throws ProductException {
 		CurrentSession validSession = sdao.findByUuid(key);
 		if(validSession!=null && validSession.getRole().toString().equals("ADMIN")) {
-			Product existingProduct = prepo.findByProductName(product.getProductName());
+			Optional<Product> existingProductopt = prepo.findById(product.getProductId());
 			
-			if(existingProduct == null) {
+			if(existingProductopt.isPresent()==false) {
 				throw new ProductException(product.getProductName()+" does not have in the product list");
 			}
 			else {
+				Product existingProduct = existingProductopt.get();
 				existingProduct.setColor(product.getColor());
 				existingProduct.setManufacturer(product.getManufacturer());
 				existingProduct.setDimension(product.getDimension());

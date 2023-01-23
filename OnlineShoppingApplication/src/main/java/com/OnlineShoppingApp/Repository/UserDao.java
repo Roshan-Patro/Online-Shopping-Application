@@ -13,7 +13,7 @@ public interface UserDao extends JpaRepository<User, Integer>{
 	
 	public User findByCompIdEmail(String compIdEmail);
 	
-	@Query("select u from User u where u.compIdEmail=?1 AND u.password=?2")
-	public User findUserByCompIdEmailAndPass(String email, String password);
+	@Query("select u from User u where u.compIdEmail=?1 and u.password=?2") // Not working
+	public List<User> findBycompIdEmailAndpassword(String email, String password);
 
 }

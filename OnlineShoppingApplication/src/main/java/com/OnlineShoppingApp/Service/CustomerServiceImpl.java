@@ -135,10 +135,10 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public String updatePassword(UpdatePasswordDTO dto) throws CustomerException {
-		User user = userDao.findUserByCompIdEmailAndPass(dto.getCompIdEmail(), dto.getOldPassword());
-		if(user!=null) {
-			user.setPassword(dto.getNewPassword());
-			userDao.save(user);
+		List<User> userList = userDao.findBycompIdEmailAndpassword(dto.getCompIdEmail(), dto.getOldPassword());
+		if(userList.size()!=0) {
+			userList.get(0).setPassword(dto.getNewPassword());
+			userDao.save(userList.get(0));
 			return "Password updated successfully";
 		}
 		throw new CustomerException("Invalid details provided. Please, try again.");

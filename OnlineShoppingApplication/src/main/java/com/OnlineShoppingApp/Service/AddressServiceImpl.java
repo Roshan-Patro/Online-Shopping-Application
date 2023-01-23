@@ -13,7 +13,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.OnlineShoppingApp.Entity.Address;
+import com.OnlineShoppingApp.Entity.Customer;
 import com.OnlineShoppingApp.Exception.AddressException;
+import com.OnlineShoppingApp.Exception.CustomerException;
 import com.OnlineShoppingApp.Repository.AddressDao;
 
 @Service
@@ -21,6 +23,8 @@ public class AddressServiceImpl implements AddressService {
 
 	@Autowired
 	private AddressDao aDao;
+	
+//	private
 
 	// 1. Adding Address
 	@Override
@@ -228,6 +232,17 @@ public class AddressServiceImpl implements AddressService {
 			return addressList;
 		}
 		throw new AddressException("No address found with this pincode.");
+	}
+
+	@Override
+	public Customer addAnAddressToCustomer(Integer addressId, Integer customerId)
+			throws AddressException, CustomerException {
+//		Optional<Address> addOpt = aDao.findById(addressId);
+//		if(addOpt.isPresent()) {
+//			Optional<Customer> customeOpt = cu
+//		}
+//		throw new AddressException("Invalid address id.":+addressId);
+		return null;
 	}
 
 }

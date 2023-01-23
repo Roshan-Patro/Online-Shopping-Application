@@ -3,7 +3,9 @@ package com.OnlineShoppingApp.Service;
 import java.util.List;
 
 import com.OnlineShoppingApp.Entity.Address;
+import com.OnlineShoppingApp.Entity.Customer;
 import com.OnlineShoppingApp.Exception.AddressException;
+import com.OnlineShoppingApp.Exception.CustomerException;
 
 public interface AddressService {
 	
@@ -56,7 +58,7 @@ public interface AddressService {
 	// 10. Find addresses by pincode
 	public List<Address> findAddressesByPincode(String pincode) throws AddressException;
 	
-	
+	public Customer addAnAddressToCustomer(Integer addressId, Integer customerId) throws AddressException,CustomerException;
 	
 	
 	
