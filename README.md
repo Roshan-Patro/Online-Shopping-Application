@@ -52,7 +52,7 @@ This project has following modules:
 
 ### API Root Endpoint
 ```
-https://localhost:8880/
+https://localhost:8877/
 ```
 ```
 http://localhost:8877/swagger-ui/index.html
