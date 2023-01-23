@@ -55,7 +55,7 @@ This project has following modules:
 https://localhost:8880/
 ```
 ```
-http://localhost:8880/swagger-ui/index.html
+http://localhost:8877/swagger-ui/index.html
 ```
 
 ### Contributors
