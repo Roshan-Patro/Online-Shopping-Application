@@ -11,13 +11,13 @@ import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.login.LoginException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 public class AdminLoginLogoutServiceImpl implements AdminLoginLogoutService{
 
+	// Injecting dependencies
     @Autowired
     private SessionDao sessionDao;
 
@@ -27,24 +27,28 @@ public class AdminLoginLogoutServiceImpl implements AdminLoginLogoutService{
     @Autowired
     private UserDao userDao;
 
+    
+    // Overriding parent abstract methods
+    
+    // Admin login
     @Override
-    public String logIntoAccount(AdminLogInDTO dto) throws LoginLogoutException {
-        Admin existingAdmin= adminDao.findByAdminCompanyId(dto.getAdminCompanyId());
+    public String logIntoAccount(AdminLogInDTO adminLoginDto) throws LoginLogoutException {
+        Admin existingAdmin= adminDao.findByAdminCompanyId(adminLoginDto.getAdminCompanyId());
 
         if(existingAdmin==null){
-            throw new LoginLogoutException("Admin doesn't exist...!");
+            throw new LoginLogoutException("Admin doesn't exist with company id: "+adminLoginDto.getAdminCompanyId());
         }
 
         Optional<CurrentSession> validSessionOpt = sessionDao.findById(existingAdmin.getAdminLoginId());
         if(validSessionOpt.isPresent()) {
-            throw new LoginLogoutException("Admin already Logged In");
+            throw new LoginLogoutException("Admin already logged In with login id: "+existingAdmin.getAdminLoginId());
         }
-        User existingUser = userDao.findByCompIdEmail(dto.getAdminCompanyId());
-        if(existingUser.getPassword().equals(dto.getPassword())) {
+        User existingUser = userDao.findByCompIdEmail(adminLoginDto.getAdminCompanyId());
+        if(existingUser.getPassword().equals(adminLoginDto.getPassword())) {
 
-            String AdminOTP= RandomString.make(4);
+            String adminOTP = RandomString.make(4);
 
-            CurrentSession currentSession = new CurrentSession(existingAdmin.getAdminLoginId(),Role.ADMIN,AdminOTP, LocalDateTime.now());
+            CurrentSession currentSession = new CurrentSession(existingAdmin.getAdminLoginId(), Role.ADMIN, adminOTP, LocalDateTime.now());
 
             sessionDao.save(currentSession);
 
@@ -54,18 +58,19 @@ public class AdminLoginLogoutServiceImpl implements AdminLoginLogoutService{
             throw new LoginLogoutException("Please Enter a valid password");
     }
 
+    // Admin logout
     @Override
-    public String logOutFromAccount(Integer adminId, String key) throws LoginLogoutException {
-        CurrentSession validSession = sessionDao.findByUuid(key);
+    public String logOutFromAccount(Integer adminId, String adminKey) throws LoginLogoutException {
+        CurrentSession validSession = sessionDao.findByUuid(adminKey);
         
         if(validSession==null) {
-        	throw new LoginLogoutException("Invalid key");
+        	throw new LoginLogoutException("Invalid key: "+adminKey);
         }
 
-        if(validSession.getRole().toString().equalsIgnoreCase("ADMIN") && validSession.getId()==adminId){
+        if(validSession.getRole().toString().equalsIgnoreCase(Role.ADMIN.toString()) && validSession.getId()==adminId){
             sessionDao.delete(validSession);
-            return "Logged Out !";
+            return "Logged Out!";
         }else
-            throw new LoginLogoutException("Invalid admin id or admin has not logged in.");
+            throw new LoginLogoutException("Invalid admin id: "+adminId+" or admin has not logged in yet.");
     }
 }

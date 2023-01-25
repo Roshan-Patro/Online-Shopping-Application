@@ -8,25 +8,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.security.auth.login.LoginException;
-
 @RestController
+@RequestMapping("/admin")
 public class AdminLoginLogoutController {
 
+	// Injecting dependencies
     @Autowired
     private AdminLoginLogoutService adminLoginLogoutService;
 
-    @PostMapping("/admin/login")
-    public ResponseEntity<String> logInAdmin(@RequestBody AdminLogInDTO dto) throws LoginLogoutException {
-        String result = adminLoginLogoutService.logIntoAccount(dto);
+    
+    // Creating APIs
+    
+    // Admin login
+    @PostMapping("/login")
+    public ResponseEntity<String> logInAdmin(@RequestBody AdminLogInDTO adminLoginDto) throws LoginLogoutException {
+        String result = adminLoginLogoutService.logIntoAccount(adminLoginDto);
         return new ResponseEntity<String>(result, HttpStatus.OK );
     }
 
-    @PostMapping("/admin/logout")
-    public String logoutAdmin(@RequestParam("id") Integer id, @RequestParam("key") String key) throws LoginLogoutException {
-        return adminLoginLogoutService.logOutFromAccount(id, key);
+    // Admin logout
+    @PostMapping("/logout")
+    public String logoutAdmin(@RequestParam("adminId") Integer adminId, @RequestParam("adminKey") String adminKey) throws LoginLogoutException {
+        return adminLoginLogoutService.logOutFromAccount(adminId, adminKey);
     }
 }

@@ -17,6 +17,7 @@ import com.OnlineShoppingApp.Entity.Customer;
 import com.OnlineShoppingApp.Exception.AddressException;
 import com.OnlineShoppingApp.Exception.CustomerException;
 import com.OnlineShoppingApp.Repository.AddressDao;
+import com.OnlineShoppingApp.Repository.CustomerDao;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -24,7 +25,8 @@ public class AddressServiceImpl implements AddressService {
 	@Autowired
 	private AddressDao aDao;
 	
-//	private
+	@Autowired
+	private CustomerDao cDao;
 
 	// 1. Adding Address
 	@Override
@@ -235,14 +237,21 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public Customer addAnAddressToCustomer(Integer addressId, Integer customerId)
+	public Customer addAnAddressToCustomer(Integer addressId, Integer customerId, String key)
 			throws AddressException, CustomerException {
-//		Optional<Address> addOpt = aDao.findById(addressId);
-//		if(addOpt.isPresent()) {
-//			Optional<Customer> customeOpt = cu
-//		}
-//		throw new AddressException("Invalid address id.":+addressId);
-		return null;
+		Optional<Address> addOpt = aDao.findById(addressId);
+		if(addOpt.isPresent()) {
+			Address existingAddress = addOpt.get();
+			Optional<Customer> customerOpt = cDao.findById(customerId);
+			if(customerOpt.isPresent()) {
+				Customer existingCustomer = customerOpt.get();
+				existingCustomer.getAddressList().add(existingAddress);
+				existingAddress.getCustomerList().add(existingCustomer);
+				return cDao.save(existingCustomer);
+			}
+			throw new CustomerException("Invalid customer id: "+customerId);
+		}
+		throw new AddressException("Invalid address id.: "+addressId);
 	}
 
 }
