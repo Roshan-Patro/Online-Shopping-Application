@@ -3,11 +3,12 @@ package com.OnlineShoppingApp.Service;
 import com.OnlineShoppingApp.DTO.AdminLogInDTO;
 import com.OnlineShoppingApp.Exception.LoginLogoutException;
 
-import javax.security.auth.login.LoginException;
 
 public interface AdminLoginLogoutService {
 
-    public String logIntoAccount(AdminLogInDTO dto)throws LoginLogoutException;
+	// Admin login
+    public String logIntoAccount(AdminLogInDTO adminLoginDto) throws LoginLogoutException;
 
-    public String logOutFromAccount(Integer adminId, String key)throws LoginLogoutException;
+    // Admin logout
+    public String logOutFromAccount(Integer adminId, String adminKey) throws LoginLogoutException;
 }

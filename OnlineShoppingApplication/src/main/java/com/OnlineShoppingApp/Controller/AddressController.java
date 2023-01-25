@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.OnlineShoppingApp.Entity.Address;
+import com.OnlineShoppingApp.Entity.Customer;
 import com.OnlineShoppingApp.Service.AddressService;
 
 @RestController
@@ -123,6 +124,11 @@ public class AddressController {
 	@GetMapping("/getByPin/{pincode}")
 	public ResponseEntity<List<Address>> findAddressesByPincode(@PathVariable("pincode") String pincode) {
 		return new ResponseEntity<>(aService.findAddressesByPincode(pincode), HttpStatus.ACCEPTED);
+	}
+	
+	@PutMapping("/addAddressToCustomer/{addressId}/{customerId}")
+	public ResponseEntity<Customer> addAnAddressToCustomer(@PathVariable("addressId") Integer addressId, @PathVariable("customerId") Integer customerId, @RequestParam("key") String key) {
+		return new ResponseEntity<>(aService.addAnAddressToCustomer(addressId, customerId, key), HttpStatus.OK);
 	}
 
 }
