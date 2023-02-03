@@ -2,7 +2,7 @@
 
 A backend system for an online shopping application with APIs for all relevant functionalities including user and admin registration, log in and CRUD functionalities for both admin and user as per user eligibility. 
 
-## Tech Stack and Tools
+## Tech Stack and Tools:
 
 * Java
 * Spring Framework
@@ -19,17 +19,17 @@ A backend system for an online shopping application with APIs for all relevant f
 
 
 
-## More about the project
+## More about the project:
 <!-- <img src="" width="800px" /> -->
 ![Get_Go_Bazar !!](https://user-images.githubusercontent.com/107461385/216571082-cddace21-988d-4cba-bafc-545b2553337d.jpeg)
 
 <br />
 
-## ER Diagram
+## ER Diagram:
 
 ![ER Diagram](https://user-images.githubusercontent.com/107461385/216570084-222248a1-6c27-4f12-a05b-b7e67b327c31.png)
 
-## Modules
+## Modules:
 
 This project has following modules:
 
@@ -41,7 +41,7 @@ This project has following modules:
 - Orders Module
 - Address Module
 
-## 🚀 Admin Features
+## 🚀 Admin Features:
 - Admin Login
 - Admin Logout
 - Add an admin
@@ -51,7 +51,7 @@ This project has following modules:
 - View all admin details
 - Update admin password
 
-## 🚀 Customer Features
+## 🚀 Customer Features:
 - Customer Login
 - Customer Logout
 - Add a customer
@@ -61,7 +61,7 @@ This project has following modules:
 - View all customer details
 - Update customer password
 
-## 🚀 Cart and Cart-Product Features
+## 🚀 Cart and Cart-Product Features:
 - Add a product to cart
 - Remove a product from cart
 - Update the quantity of a product in cart
@@ -69,13 +69,13 @@ This project has following modules:
 - View all products in a cart
 - View total cart price for a cart of a customer by customer id
 
-## 🚀 Category Features
+## 🚀 Category Features:
 - Add a category
 - Remove a category
 - Get all categories
 - Get a category by id
 
-## 🚀 Product Features
+## 🚀 Product Features:
 - View all products
 - Add a product
 - Update a product
@@ -84,7 +84,7 @@ This project has following modules:
 - Remove a product
 - Add a product to a category
 
-## 🚀 Orders Features
+## 🚀 Orders Features:
 - Add an order with an existing address
 - Add an order with a new address
 - Update order status
@@ -98,7 +98,7 @@ This project has following modules:
 - View all orders with pagination and in ascending order by any specific property
 - View all orders with pagination and in descending order by any specific property
 
-## 🚀 Address Features
+## 🚀 Address Features:
 - Add an address to a customer
 - Update an address
 - Remove an address
@@ -115,7 +115,7 @@ This project has following modules:
 - View all addresses with pagination and in ascending order by any specific property
 - View all addresses with pagination and in descending order by any specific property
 
-### Installation & Run
+### Installation & Run:
 
 * Before running the API server, you should update the database config inside the [application.properties](https://github.com/Roshan-Patro/lazy-jeans-3588/blob/main/OnlineShoppingApplication/src/main/resources/application.properties) file. 
 * Update the port number, username and password as per your local database config.
@@ -129,7 +129,7 @@ This project has following modules:
 
 ```
 
-### API Root Endpoint
+### API Root Endpoint:
 ```
 https://localhost:8877/
 ```
@@ -137,7 +137,7 @@ https://localhost:8877/
 http://localhost:8877/swagger-ui/index.html
 ```
 
-### Contributors
+### Contributors:
 
 * [T Roshan Kumar Patro](https://github.com/Roshan-Patro)
 * [Nikhil Kharat](https://github.com/nikhilkharat)
