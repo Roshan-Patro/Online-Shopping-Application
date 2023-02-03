@@ -1,6 +1,6 @@
 # Get & Go Bazar...!!
 
-A backend project for an online shopping application with APIs for all relevant functionalities including user and admin registration, log in and CRUD functionalities for both admin and user as per user eligibility. 
+A backend system for an online shopping application with APIs for all relevant functionalities including user and admin registration, log in and CRUD functionalities for both admin and user as per user eligibility. 
 
 ## Tech Stack and Tools
 
@@ -12,6 +12,10 @@ A backend project for an online shopping application with APIs for all relevant 
 * Postman
 * Swagger
 
+<!-- <p align="center">
+  <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white" alt="java" />
+  <img src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white" alt="mysql" />
+</p> -->
 
 
 
@@ -23,17 +27,67 @@ A backend project for an online shopping application with APIs for all relevant 
 
 ![ER Diagram](https://github.com/Roshan-Patro/lazy-jeans-3588/blob/main/Images/ER_Diagram.png)
 
-### Modules
+## Modules
 
 This project has following modules:
 
 - Admin Module
 - Customer Module
-- Cart and Cart Product Module
+- Cart and Cart-Product Module
 - Product Module
-- Customer Module
 - Orders Module
 - Address Module
+
+## 🚀 Admin Features
+- Admin Login
+- Admin Logout
+- Add an admin
+- Update admin details
+- View admin details by admin id
+- Delete admin by admin id
+- View all admin details
+- Update admin password
+
+## 🚀 Customer Features
+- Customer Login
+- Customer Logout
+- Add a customer
+- View customer details by id
+- Update customer details 
+- Delete customer by customer id
+- View all customer details
+- Update customer password
+
+## 🚀 Cart and Cart-Product Features
+- Add a product to cart
+- Remove a product from cart
+- Update the quantity of a product in cart
+- Remove all products form a cart
+- View all products in a cart
+- View total cart price for a cart of a customer by customer id
+
+## 🚀 Product Features
+- View all products
+- Add a product
+- Update a product
+- View a product by product id
+- View all products by category
+- Remove a product
+- Add a product to a category
+
+## 🚀 Orders Features
+- Add an order with an existing address
+- Add an order with a new address
+- Update order status
+- Remove an order
+- View an order by order id
+- View all orders by date
+- View all orders by city name
+- View all orders of a customer
+- View all orders in ascending order by any specific property
+- View all orders in descending order by any specific property
+- View all orders with pagination and in ascending order by any specific property
+- View all orders with pagination and in descending order by any specific property
 
 ### Installation & Run
 
