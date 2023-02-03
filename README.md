@@ -22,7 +22,7 @@ A backend system for an online shopping application with APIs for all relevant f
 ## More about the project -
 <!-- ![Get_Go_Bazar !!](https://user-images.githubusercontent.com/107461385/216571082-cddace21-988d-4cba-bafc-545b2553337d.jpeg) -->
 <p align="center">
-<img src="https://user-images.githubusercontent.com/107461385/216571082-cddace21-988d-4cba-bafc-545b2553337d.jpeg" width="800px" />
+<img src="https://user-images.githubusercontent.com/107461385/216571082-cddace21-988d-4cba-bafc-545b2553337d.jpeg" width="700px" height="500px"/>
 </p>
 <br />
 
