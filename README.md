@@ -34,6 +34,7 @@ This project has following modules:
 - Admin Module
 - Customer Module
 - Cart and Cart-Product Module
+- Category Module
 - Product Module
 - Orders Module
 - Address Module
@@ -66,6 +67,12 @@ This project has following modules:
 - View all products in a cart
 - View total cart price for a cart of a customer by customer id
 
+## 🚀 Category Features
+- Add a category
+- Remove a category
+- Get all categories
+- Get a category by id
+
 ## 🚀 Product Features
 - View all products
 - Add a product
@@ -88,6 +95,23 @@ This project has following modules:
 - View all orders in descending order by any specific property
 - View all orders with pagination and in ascending order by any specific property
 - View all orders with pagination and in descending order by any specific property
+
+## 🚀 Address Features
+- Add an address to a customer
+- Update an address
+- Remove an address
+- View all addresses
+- View an address by address id
+- View all addresses by pincode
+- View all addresses by building name
+- View all addresses of orders by pincode
+- View all addresses of customers by pincode  
+- View all addresses of orders by country and state name
+- View all addresses of customers by country and state name 
+- View all addresses in ascending order by any specific property
+- View all addresses in descending order by any specific property
+- View all addresses with pagination and in ascending order by any specific property
+- View all addresses with pagination and in descending order by any specific property
 
 ### Installation & Run
 
