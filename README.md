@@ -21,13 +21,13 @@ A backend system for an online shopping application with APIs for all relevant f
 
 ## More about the project:
 <!-- <img src="" width="800px" /> -->
-
+![Get_Go_Bazar !!](https://user-images.githubusercontent.com/107461385/216571082-cddace21-988d-4cba-bafc-545b2553337d.jpeg)
 
 <br />
 
 ### ER Diagram:
 
-![Recent](https://user-images.githubusercontent.com/107461385/216570084-222248a1-6c27-4f12-a05b-b7e67b327c31.png)
+![ER Diagram](https://user-images.githubusercontent.com/107461385/216570084-222248a1-6c27-4f12-a05b-b7e67b327c31.png)
 
 ## Modules
 
