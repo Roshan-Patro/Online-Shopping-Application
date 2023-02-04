@@ -1,4 +1,5 @@
-<h1 align="center">Get & Go Bazar...!!</h1>
+<!-- <h1 align="center">Get & Go Bazar...!!</h1> -->
+<h1 align="center"><img align="center" height="45" src="https://user-images.githubusercontent.com/107461385/216571082-cddace21-988d-4cba-bafc-545b2553337d.jpeg"> &nbsp;Get & Go Bazar...!! </h1>
 
 A backend system for an online shopping application with APIs for all relevant functionalities including user and admin registration, log in and CRUD functionalities for both admin and customer as per user eligibility. 
 
