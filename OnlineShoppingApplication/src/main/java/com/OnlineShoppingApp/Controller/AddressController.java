@@ -128,8 +128,8 @@ public class AddressController {
 	}
 	
 	@PutMapping("/addAddressToCustomer/{addressId}/{customerId}")
-	public ResponseEntity<Customer> addAnAddressToCustomer(@PathVariable("addressId") Integer addressId, @PathVariable("customerId") Integer customerId, @RequestParam("key") String key) {
-		return new ResponseEntity<>(aService.addAnAddressToCustomer(addressId, customerId, key), HttpStatus.OK);
+	public ResponseEntity<Customer> addAnAddressToCustomer(@PathVariable("addressId") Integer addressId, @PathVariable("customerId") Integer customerId) {
+		return new ResponseEntity<>(aService.addAnAddressToCustomer(addressId, customerId), HttpStatus.OK);
 	}
 
 }

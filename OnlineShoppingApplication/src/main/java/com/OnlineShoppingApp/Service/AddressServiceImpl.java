@@ -237,7 +237,7 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public Customer addAnAddressToCustomer(Integer addressId, Integer customerId, String key)
+	public Customer addAnAddressToCustomer(Integer addressId, Integer customerId)
 			throws AddressException, CustomerException {
 		Optional<Address> addOpt = aDao.findById(addressId);
 		if(addOpt.isPresent()) {

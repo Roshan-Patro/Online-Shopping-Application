@@ -58,7 +58,7 @@ public interface AddressService {
 	// 10. Find addresses by pincode
 	public List<Address> findAddressesByPincode(String pincode) throws AddressException;
 	
-	public Customer addAnAddressToCustomer(Integer addressId, Integer customerId, String key) throws AddressException,CustomerException;
+	public Customer addAnAddressToCustomer(Integer addressId, Integer customerId) throws AddressException,CustomerException;
 	
 	
 	
