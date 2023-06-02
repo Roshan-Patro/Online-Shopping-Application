@@ -31,8 +31,10 @@ A backend system for an online shopping application with APIs for all relevant f
 
 <!-- ![ER Diagram](https://user-images.githubusercontent.com/107461385/216570084-222248a1-6c27-4f12-a05b-b7e67b327c31.png) -->
 <p align="center">
-<img src="https://user-images.githubusercontent.com/107461385/216570084-222248a1-6c27-4f12-a05b-b7e67b327c31.png" width="800px" />
+<img src="https://github.com/Roshan-Patro/Online-Shopping-Application/assets/107461385/97bd8564-b77b-4eca-a320-20b02048cc43" width="800px" />
 </p>
+<!-- ER Diagram with relationship between customer and address ==> MTM (Bi) 
+https://user-images.githubusercontent.com/107461385/216570084-222248a1-6c27-4f12-a05b-b7e67b327c31.png -->
 
 ## Modules -
 
