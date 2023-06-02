@@ -179,13 +179,13 @@ public class OrdersServiceImpl implements OrdersService {
 						existingCustomer.getOrderList().add(orders);
 					}
 
-					if (address.getCustomerList() == null) {
-						List<Customer> customerList = new ArrayList<>();
-						customerList.add(existingCustomer);
-						address.setCustomerList(customerList);
-					} else {
-						address.getCustomerList().add(existingCustomer);
-					}
+//					if (address.getCustomerList() == null) {
+//						List<Customer> customerList = new ArrayList<>();
+//						customerList.add(existingCustomer);
+//						address.setCustomerList(customerList);
+//					} else {
+//						address.getCustomerList().add(existingCustomer);
+//					}
 
 					if (existingCustomer.getAddressList() == null) {
 						List<Address> addressList = new ArrayList<>();

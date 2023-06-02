@@ -42,8 +42,12 @@ public class Customer {
 	@Email(message = "Email must be a valid one.")
 	private String email;
 	
+//	@JsonIgnore
+//	@ManyToMany(cascade = CascadeType.ALL) // Always Bidirectional
+//	private List<Address> addressList;
+	
 	@JsonIgnore
-	@ManyToMany(cascade = CascadeType.ALL) // Always Bidirectional
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer") // Bidirectional
 	private List<Address> addressList;
 	
 	@JsonIgnore

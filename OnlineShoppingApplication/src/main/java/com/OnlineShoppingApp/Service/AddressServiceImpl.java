@@ -52,8 +52,8 @@ public class AddressServiceImpl implements AddressService {
 
 	// 3. Removing Address by address
 	@Override
-	public Address removeAddress(Address address) throws AddressException {
-		Optional<Address> optAddress = aDao.findById(address.getAddressId());
+	public Address removeAddressById(Integer addressId) throws AddressException {
+		Optional<Address> optAddress = aDao.findById(addressId);
 
 		if (optAddress.isPresent()) {
 			Address existingAddress = optAddress.get();
@@ -61,7 +61,7 @@ public class AddressServiceImpl implements AddressService {
 
 			return existingAddress;
 		}
-		throw new AddressException("No address exists with the Id: " + address.getAddressId());
+		throw new AddressException("No address exists with the Id: " + addressId);
 	}
 
 	// 4. Viewing all addresses
@@ -134,7 +134,7 @@ public class AddressServiceImpl implements AddressService {
 		if (allAddressesWithPin.size() != 0) {
 			List<Address> onlyCustomerAddresses = new ArrayList<>();
 			for (Address address : allAddressesWithPin) {
-				if (address.getCustomerList().size() != 0) {
+				if (address.getCustomer() != null) {
 					onlyCustomerAddresses.add(address);
 				}
 			}
@@ -168,7 +168,7 @@ public class AddressServiceImpl implements AddressService {
 		if (allCustomersWithCountryState.size() != 0) {
 			List<Address> onlyCustomerAddresses = new ArrayList<>();
 			for (Address address : allCustomersWithCountryState) {
-				if (address.getCustomerList().size() != 0) {
+				if (address.getCustomer() != null) {
 					onlyCustomerAddresses.add(address);
 				}
 			}
@@ -245,8 +245,7 @@ public class AddressServiceImpl implements AddressService {
 			Optional<Customer> customerOpt = cDao.findById(customerId);
 			if(customerOpt.isPresent()) {
 				Customer existingCustomer = customerOpt.get();
-				existingCustomer.getAddressList().add(existingAddress);
-				existingAddress.getCustomerList().add(existingCustomer);
+				existingAddress.setCustomer(existingCustomer);
 				return cDao.save(existingCustomer);
 			}
 			throw new CustomerException("Invalid customer id: "+customerId);

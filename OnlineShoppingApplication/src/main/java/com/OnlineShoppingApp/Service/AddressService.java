@@ -15,8 +15,8 @@ public interface AddressService {
 	// 2. Update Address
 	public Address updateAddress(Address address) throws AddressException;
 	
-	// 3. Remove Address by address
-	public Address removeAddress(Address address) throws AddressException;
+	// 3. Remove Address by address Id
+	public Address removeAddressById(Integer addressId) throws AddressException;
 	
 	// 4. View all addresses
 	public List<Address> viewAllAddresses() throws AddressException;

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -52,8 +53,12 @@ public class Address {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "address") // Bidirectional
 	private List<Orders> orderList; 
 	
+//	@JsonIgnore
+//	@ManyToMany(mappedBy = "addressList") // Always Bidirectional
+//	private List<Customer> customerList;
+	
 	@JsonIgnore
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "addressList") // Always Bidirectional
-	private List<Customer> customerList;
+	@ManyToOne // Bidirectional
+	private Customer customer;
 
 }

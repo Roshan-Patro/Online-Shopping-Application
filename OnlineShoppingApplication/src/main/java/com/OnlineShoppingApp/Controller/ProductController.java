@@ -74,7 +74,7 @@ public class ProductController {
 	@PutMapping("/addProdToCat/{pid}/{cname}")
 	public ResponseEntity<Product> addProductToACategory(@PathVariable("pid") Integer productID, @PathVariable("cname") String categoryName, @RequestParam String key){
 		
-		return new ResponseEntity<Product>(pservice.addCategoryToTheProduct(productID, categoryName, key), HttpStatus.CREATED);
+		return new ResponseEntity<Product>(pservice.addCategoryToTheProduct(productID, categoryName, key), HttpStatus.OK);
 	
 	}
 	

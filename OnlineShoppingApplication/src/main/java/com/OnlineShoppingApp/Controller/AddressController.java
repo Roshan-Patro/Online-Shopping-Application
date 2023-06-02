@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.OnlineShoppingApp.Entity.Address;
 import com.OnlineShoppingApp.Entity.Customer;
+import com.OnlineShoppingApp.Repository.CustomerDao;
 import com.OnlineShoppingApp.Service.AddressService;
 
 @RestController
@@ -39,9 +40,9 @@ public class AddressController {
 	}
 
 	// 3. Removing Address by address
-	@DeleteMapping
-	public ResponseEntity<Address> removeAddress(@RequestBody Address address) {
-		return new ResponseEntity<>(aService.removeAddress(address), HttpStatus.OK);
+	@DeleteMapping("/{addressId}")
+	public ResponseEntity<Address> removeAddressById(@PathVariable("addressId") Integer addressId) {
+		return new ResponseEntity<>(aService.removeAddressById(addressId), HttpStatus.OK);
 	}
 
 	// 4. Viewing all addresses

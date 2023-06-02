@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 @Service
 public class CustomerServiceImpl implements CustomerService{
 
@@ -29,7 +31,7 @@ public class CustomerServiceImpl implements CustomerService{
     private SessionDao sDao;
 
     @Override
-    public Customer addCustomer(CustomerRegisterDTO customerRegisterDTO) throws CustomerException {
+    public Customer addCustomer(@Valid CustomerRegisterDTO customerRegisterDTO) throws CustomerException {
         Customer existCustomer= cDao.findByEmail(customerRegisterDTO.getEmail());
 
         if(existCustomer!=null){
